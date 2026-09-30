@@ -1,0 +1,65 @@
+2026-09-29 03:14:43,439 | INFO    | system | [app] Server ready — 3 camera(s) in array
+2026-09-29 03:14:43,447 | INFO    | system | [camera-manager] Started 2 CCTV worker(s) (4 threads), 1 webcam socket source(s)
+2026-09-29 03:14:51,469 | ERROR   | camera | [cctv-1] Main Gate offline: stream open nahi hui
+2026-09-29 03:14:59,488 | ERROR   | camera | [cctv-2] Office Hall offline: stream open nahi hui
+2026-09-29 03:17:56,073 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-09-29 03:17:56,084 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-09-29 03:18:45,389 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0001 on Reception Webcam
+2026-09-29 03:19:02,941 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0002 on Reception Webcam
+2026-09-29 03:23:14,234 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0003 on Reception Webcam
+2026-09-29 03:24:14,404 | WARNING | register | [127.0.0.1] Register attempt: galat admin key
+2026-09-29 03:25:51,843 | INFO    | register | [register] Registered: Muhammad Bilal (101) with 5 face samples (id=1)
+2026-09-29 03:26:19,665 | INFO    | attendance | [webcam-1] CHECK_IN: Muhammad Bilal (101) via Reception Webcam, sim=0.86
+2026-09-29 03:26:37,351 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0004 on Reception Webcam
+2026-09-29 03:27:04,449 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0005 on Reception Webcam
+2026-09-29 03:27:05,206 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0006 on Reception Webcam
+2026-09-29 03:27:05,919 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0007 on Reception Webcam
+2026-09-29 03:27:48,521 | WARNING | unknown | [webcam-1] UNK-0002 dobara aaya (visit #2) on Reception Webcam
+2026-09-29 03:28:26,738 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0008 on Reception Webcam
+2026-09-29 03:28:30,371 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0009 on Reception Webcam
+2026-09-29 03:28:31,071 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0010 on Reception Webcam
+2026-09-29 03:28:31,796 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0011 on Reception Webcam
+2026-09-29 03:28:33,206 | WARNING | unknown | [webcam-1] UNK-0006 dobara aaya (visit #2) on Reception Webcam
+2026-09-29 03:30:29,456 | INFO    | register | [register] Registered: Maleeha pagal (102) with 5 face samples (id=2)
+2026-09-29 03:30:45,148 | INFO    | attendance | [webcam-1] CHECK_IN: Maleeha pagal (102) via Reception Webcam, sim=0.65
+2026-09-29 03:30:48,182 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0012 on Reception Webcam
+2026-09-29 03:30:49,204 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0013 on Reception Webcam
+2026-09-29 03:30:55,421 | WARNING | unknown | [webcam-1] UNK-0008 dobara aaya (visit #2) on Reception Webcam
+2026-09-29 03:32:59,800 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0014 on Reception Webcam
+2026-09-29 03:33:00,505 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0015 on Reception Webcam
+2026-09-29 03:33:33,613 | WARNING | unknown | [webcam-1] UNK-0009 dobara aaya (visit #2) on Reception Webcam
+2026-09-29 20:56:25,257 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-09-29 20:56:25,267 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-09-29 20:57:32,338 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-09-29 20:57:32,351 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-09-29 20:57:59,466 | INFO    | attendance | [webcam-1] CHECK_OUT: Muhammad Bilal (101) via Reception Webcam, sim=0.62
+2026-09-29 20:58:01,983 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0016 on Reception Webcam
+2026-09-29 21:08:52,747 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0017 on Reception Webcam
+2026-09-29 21:12:12,743 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0018 on Reception Webcam
+2026-09-29 21:14:01,830 | WARNING | unknown | [webcam-1] UNK-0018 dobara aaya (visit #2) on Reception Webcam
+2026-09-29 22:13:37,209 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-09-29 22:13:37,218 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-09-29 22:13:46,098 | INFO    | attendance | [webcam-1] CHECK_OUT: Muhammad Bilal (101) via Reception Webcam, sim=0.57
+2026-09-29 22:16:42,582 | WARNING | unknown | [webcam-1] UNK-0016 dobara aaya (visit #2) on Reception Webcam
+2026-09-29 22:16:49,885 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0019 on Reception Webcam
+2026-09-29 22:17:04,466 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0020 on Reception Webcam
+2026-09-29 22:17:15,416 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0021 on Reception Webcam
+2026-09-29 22:18:12,703 | WARNING | unknown | [webcam-1] UNK-0016 dobara aaya (visit #3) on Reception Webcam
+2026-09-29 22:18:16,192 | WARNING | unknown | [webcam-1] UNK-0020 dobara aaya (visit #2) on Reception Webcam
+2026-09-29 22:21:32,913 | WARNING | register | [register] Duplicate face rejected: 'Rehana' (202) already registered as Muhammad Bilal (101), sim=0.65
+2026-09-29 22:22:38,840 | WARNING | register | [register] Duplicate face rejected: 'Rehana' (202) already registered as Muhammad Bilal (101), sim=0.61
+2026-09-29 22:24:17,227 | WARNING | register | [register] Duplicate face rejected: 'Rehana' (202) already registered as Muhammad Bilal (101), sim=0.60
+2026-09-29 22:25:06,452 | INFO    | register | [register] Registered: Rehana (202) with 6 face samples (id=3)
+2026-09-29 22:25:19,009 | INFO    | attendance | [webcam-1] CHECK_IN: Rehana (202) via Reception Webcam, sim=0.72
+2026-09-30 16:40:49,331 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-09-30 16:40:49,346 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-09-30 16:41:42,505 | INFO    | attendance | [webcam-1] CHECK_IN: Muhammad Bilal (101) via Reception Webcam, sim=0.75
+2026-09-30 16:41:43,586 | INFO    | attendance | [webcam-1] CHECK_IN: Rehana (202) via Reception Webcam, sim=0.63
+2026-09-30 16:42:06,765 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0022 on Reception Webcam
+2026-09-30 16:42:39,378 | INFO    | register | [register] Deleted employee: Maleeha pagal (102)
+2026-09-30 16:42:41,769 | INFO    | register | [register] Deleted employee: Rehana (202)
+2026-09-30 16:48:37,573 | INFO    | register | [register] Registered: rehana (32323) with 6 face samples (id=4)
+2026-09-30 16:49:10,877 | INFO    | register | [register] Deleted employee: rehana (32323)
+2026-09-30 16:51:05,759 | INFO    | register | [register] Registered: rehana (343) with 6 face samples (id=5)
+2026-09-30 16:51:17,004 | INFO    | attendance | [webcam-1] CHECK_IN: rehana (343) via Reception Webcam, sim=0.52
+2026-09-30 16:54:26,837 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0023 on Reception Webcam

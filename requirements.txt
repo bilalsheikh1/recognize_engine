@@ -1,0 +1,24 @@
+# Web + Sockets (threading mode)
+Flask==3.0.3
+Flask-SocketIO>=5.3.6,<6
+python-socketio>=5.11,<6
+python-engineio>=4.9,<5
+simple-websocket>=1.0.0
+
+# MySQL + ORM
+Flask-SQLAlchemy==3.1.1
+SQLAlchemy>=2.0.30,<2.1
+PyMySQL==1.1.1
+cryptography>=42.0.0         # MySQL 8 (caching_sha2_password) ke liye
+
+# Face Recognition (512-dim ArcFace embeddings)
+insightface==0.7.3
+#onnxruntime==1.18.1         # GPU support: onnxruntime-gpu
+opencv-python==4.10.0.84
+numpy==1.26.4
+
+# Vector DB (FAISS - ChromaDB Replacement)
+faiss-cpu>=1.8.0
+
+# Environment & Utilities
+python-dotenv==1.0.1

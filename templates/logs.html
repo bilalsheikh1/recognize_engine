@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block title %}Logs{% endblock %}
+
+{% block content %}
+{% set lvl = {'INFO': 'info', 'WARNING': 'warning', 'ERROR': 'danger'} %}
+
+<ul class="nav nav-tabs mb-3">
+  <li class="nav-item"><a class="nav-link {{ 'active' if tab == 'system' }}" href="/logs?tab=system">System logs</a></li>
+  <li class="nav-item"><a class="nav-link {{ 'active' if tab == 'attendance' }}" href="/logs?tab=attendance">Attendance</a></li>
+  <li class="nav-item"><a class="nav-link {{ 'active' if tab == 'unknown' }}" href="/logs?tab=unknown">Unknown faces</a></li>
+</ul>
+
+{# ------------------------------------------------------------ system logs #}
+{% if tab == 'system' %}
+<form class="row g-2 mb-3" method="get">
+  <input type="hidden" name="tab" value="system">
+  <div class="col-auto">
+    <select name="category" class="form-select" aria-label="Category">
+      {% for c in ['', 'attendance', 'unknown', 'camera', 'register', 'system'] %}
+      <option value="{{ c }}" {{ 'selected' if c == category }}>{{ c or 'All categories' }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-auto">
+    <select name="level" class="form-select" aria-label="Level">
+      {% for l in ['', 'INFO', 'WARNING', 'ERROR'] %}
+      <option value="{{ l }}" {{ 'selected' if l == level }}>{{ l or 'All levels' }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-auto"><button class="btn btn-primary">Apply filter</button></div>
+</form>
+
+<div class="table-responsive">
+  <table class="table table-sm table-striped align-top">
+    <thead><tr><th>Time</th><th>Level</th><th>Category</th><th>Source</th><th>Message</th></tr></thead>
+    <tbody id="logBody">
+      {% for r in rows %}
+      <tr>
+        <td class="text-nowrap">{{ r.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+        <td><span class="badge text-bg-{{ lvl.get(r.level, 'secondary') }}">{{ r.level }}</span></td>
+        <td>{{ r.category }}</td>
+        <td>{{ r.source }}</td>
+        <td class="msg">{{ r.message }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="5" class="text-secondary">No logs match this filter.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{# ------------------------------------------------------------ attendance #}
+{% elif tab == 'attendance' %}
+<form class="row g-2 mb-3" method="get">
+  <input type="hidden" name="tab" value="attendance">
+  <div class="col-auto"><input type="date" name="date" value="{{ day }}" class="form-control" aria-label="Date"></div>
+  <div class="col-auto"><button class="btn btn-primary">Show day</button></div>
+</form>
+
+<div class="table-responsive">
+  <table class="table table-sm table-striped">
+    <thead><tr><th>Code</th><th>Name</th><th>Department</th><th>Check in</th><th>Last seen (check out)</th><th>Camera</th><th>Match</th></tr></thead>
+    <tbody>
+      {% for r in rows %}
+      <tr>
+        <td>{{ r.employee.emp_code }}</td>
+        <td>{{ r.employee.name }}</td>
+        <td>{{ r.employee.department }}</td>
+        <td>{{ r.check_in.strftime('%H:%M:%S') }}</td>
+        <td>{{ r.check_out.strftime('%H:%M:%S') if r.check_out else '-' }}</td>
+        <td>{{ r.source_id }}</td>
+        <td>{{ '%.2f' % r.similarity if r.similarity is not none else '-' }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="7" class="text-secondary">No attendance recorded on {{ day }}.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{# ------------------------------------------------------------ unknown faces #}
+{% else %}
+<div class="table-responsive">
+  <table class="table table-sm table-striped align-middle">
+    <thead><tr><th>Snapshot</th><th>ID</th><th>Visits</th><th>First seen</th><th>Last visit</th><th>Last camera</th></tr></thead>
+    <tbody>
+      {% for u in rows %}
+      <tr>
+        <td>{% if u.snapshot %}<img src="{{ url_for('static', filename=u.snapshot) }}" height="56" class="rounded" alt="{{ u.label }}">{% endif %}</td>
+        <td>{{ u.label }}</td>
+        <td><span class="badge text-bg-warning">{{ u.seen_count }}</span></td>
+        <td>{{ u.first_seen.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+        <td>{{ u.last_seen.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+        <td>{{ u.last_source }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="6" class="text-secondary">No unknown faces recorded yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{% if tab == 'system' %}
+<script>
+// Naye logs live table ke top par aate hain (filter ke mutabiq)
+const FILTER = {category: {{ category|tojson }}, level: {{ level|tojson }}};
+const ev = io("/events", {transports: ["websocket"]});
+ev.on("new_log", d => {
+  if (FILTER.category && d.category !== FILTER.category) return;
+  if (FILTER.level && d.level !== FILTER.level) return;
+  const tr = document.createElement("tr");
+  tr.innerHTML = `<td class="text-nowrap">${esc(d.time)}</td>` +
+    `<td><span class="badge text-bg-${LEVEL_CLASS[d.level] || "secondary"}">${esc(d.level)}</span></td>` +
+    `<td>${esc(d.category)}</td><td>${esc(d.source)}</td><td class="msg">${esc(d.message)}</td>`;
+  $("logBody").prepend(tr);
+});
+</script>
+{% endif %}
+{% endblock %}

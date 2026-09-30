@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% block title %}Register employee{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-header">Register employee</div>
+      <div class="card-body">
+        <video id="video" class="cam mb-3" autoplay muted playsinline></video>
+
+        <div class="row g-2">
+          <div class="col-sm-4">
+            <label class="form-label" for="code">Employee code</label>
+            <input id="code" class="form-control" maxlength="50" autocomplete="off">
+          </div>
+          <div class="col-sm-8">
+            <label class="form-label" for="name">Full name</label>
+            <input id="name" class="form-control" maxlength="120" autocomplete="off">
+          </div>
+          <div class="col-sm-6">
+            <label class="form-label" for="dept">Department</label>
+            <input id="dept" class="form-control" maxlength="120" autocomplete="off">
+          </div>
+          <div class="col-sm-6">
+            <label class="form-label" for="adminKey">Admin key</label>
+            <input id="adminKey" type="password" class="form-control" autocomplete="off">
+          </div>
+        </div>
+
+        <button id="btnRegister" class="btn btn-primary mt-3">Capture and register</button>
+        <div id="msg" class="alert alert-secondary mt-3 mb-0">
+          Look straight at the camera in good light. During capture, turn your head slightly left and right.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Registered employees</span>
+        <span id="wsStatus" class="badge text-bg-secondary">offline</span>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-sm align-middle mb-0">
+          <thead><tr><th>Code</th><th>Name</th><th>Department</th><th>Added</th><th></th></tr></thead>
+          <tbody id="empBody"><tr><td colspan="5" class="text-secondary">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const wc = io("/webcam", {transports: ["websocket"]});
+const video = $("video");
+const SAMPLES = 6, GAP_MS = 600;
+
+function setMsg(kind, text) {
+  $("msg").className = "alert alert-" + kind + " mt-3 mb-0";
+  $("msg").textContent = text;
+}
+
+async function startCam() {
+  try {
+    const s = await navigator.mediaDevices.getUserMedia({video: {width: {ideal: 1280}, height: {ideal: 720}}, audio: false});
+    video.srcObject = s;
+  } catch (e) {
+    setMsg("danger", "Webcam access failed: " + e.message + ". Use localhost or HTTPS.");
+  }
+}
+startCam();
+
+function grab() {
+  const c = document.createElement("canvas");
+  c.width = video.videoWidth;
+  c.height = video.videoHeight;
+  c.getContext("2d").drawImage(video, 0, 0);
+  return c.toDataURL("image/jpeg", 0.92);
+}
+const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
+$("btnRegister").onclick = async () => {
+  const code = $("code").value.trim(), name = $("name").value.trim();
+  if (!code || !name) return setMsg("warning", "Enter the employee code and name.");
+  if (!video.videoWidth) return setMsg("warning", "The webcam is not running.");
+  if (!wc.connected) return setMsg("danger", "Not connected to the server.");
+
+  $("btnRegister").disabled = true;
+  const frames = [];
+  for (let i = 0; i < SAMPLES; i++) {
+    setMsg("info", `Capturing ${i + 1} of ${SAMPLES}. Turn your head slightly.`);
+    frames.push(grab());
+    await sleep(GAP_MS);
+  }
+  setMsg("info", "Checking faces on the server...");
+
+  wc.timeout(60000).emit("register",
+    {code, name, department: $("dept").value.trim(), admin_key: $("adminKey").value, frames},
+    (err, res) => {
+      $("btnRegister").disabled = false;
+      if (err || !res) return setMsg("danger", "The server did not respond in time.");
+      setMsg(res.ok ? "success" : "danger", res.message);
+      if (res.ok) { $("code").value = ""; $("name").value = ""; $("dept").value = ""; }
+    });
+};
+
+// ---------------------------------------------------------------- employee list
+function loadEmployees() {
+  wc.emit("list_employees", {}, (res) => {
+    const body = $("empBody");
+    body.innerHTML = "";
+    const rows = (res && res.employees) || [];
+    if (!rows.length) {
+      body.innerHTML = '<tr><td colspan="5" class="text-secondary">No employees registered yet.</td></tr>';
+      return;
+    }
+    rows.forEach(e => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td>${esc(e.code)}</td><td>${esc(e.name)}</td><td>${esc(e.department)}</td><td>${esc(e.created)}</td>` +
+                     `<td class="text-end"><button class="btn btn-sm btn-outline-danger">Delete</button></td>`;
+      tr.querySelector("button").onclick = () => {
+        if (!confirm(`Delete ${e.name}? Their attendance records will be deleted too.`)) return;
+        wc.emit("delete_employee", {id: e.id, admin_key: $("adminKey").value}, (r) => {
+          setMsg(r && r.ok ? "success" : "danger", (r && r.message) || "Delete failed.");
+        });
+      };
+      body.appendChild(tr);
+    });
+  });
+}
+
+wc.on("connect", () => { setBadge("wsStatus", "connected", "success"); loadEmployees(); });
+wc.on("disconnect", () => setBadge("wsStatus", "offline", "secondary"));
+wc.on("employees_changed", loadEmployees);
+</script>
+{% endblock %}

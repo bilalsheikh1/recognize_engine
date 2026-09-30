@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Face Attendance{% endblock %}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .cam  { width: 100%; display: block; background: #000; border-radius: .5rem; }
+    .feed { width: 100%; aspect-ratio: 16 / 9; object-fit: contain; background: #000; display: block; }
+    #events li { font-size: .9rem; }
+    td.msg { white-space: pre-wrap; word-break: break-word; }
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-expand bg-body-tertiary mb-4">
+  <div class="container">
+    <a class="navbar-brand fw-semibold" href="/">Face Attendance</a>
+    <div class="navbar-nav">
+      <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="/">Live</a>
+      <a class="nav-link {% if request.path == '/register' %}active{% endif %}" href="/register">Register employee</a>
+      <a class="nav-link {% if request.path == '/logs' %}active{% endif %}" href="/logs">Logs</a>
+    </div>
+  </div>
+</nav>
+
+<main class="container pb-5">
+  {% block content %}{% endblock %}
+</main>
+
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<script>
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c]));
+  const LEVEL_CLASS = {INFO: "info", WARNING: "warning", ERROR: "danger"};
+  function setBadge(id, text, kind) {
+    const b = $(id);
+    if (!b) return;
+    b.className = "badge text-bg-" + kind;
+    b.textContent = text;
+  }
+</script>
+{% block scripts %}{% endblock %}
+</body>
+</html>
