@@ -1,0 +1,5 @@
+static/
+.claude/
+.env/
+.venv/
+.agents/
