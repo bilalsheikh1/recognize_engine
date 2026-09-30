@@ -1,58 +1,238 @@
-# Face Attendance (Flask + SocketIO + InsightFace + ChromaDB + MySQL)
+# AI-Powered Face Attendance System
+
+**Flask + Socket.IO + InsightFace + ChromaDB + MySQL + AI Computer Vision**
+
+An AI-powered face attendance and CCTV monitoring system that uses **computer vision and deep-learning-based face recognition** to identify registered employees, track attendance, detect unknown visitors, and monitor multiple live camera feeds.
+
+## Key AI Features
+
+* **AI Face Detection** using InsightFace
+* **Deep-learning-based Face Recognition**
+* **512-dimensional Face Embeddings**
+* **Cosine Similarity Search** using ChromaDB
+* **Multi-frame AI verification** to reduce false matches
+* **AI-based Unknown Face Detection**
+* **Duplicate Face Detection** during employee registration
+* **Automatic Attendance Recognition**
+* **Unknown Visitor Tracking and Visit Counting**
+* **Real-time AI processing of webcam and CCTV streams**
+* **Automatic CCTV stream reconnection**
+* **AI-ready architecture for future features such as face liveness detection, person detection, gender detection, and action/activity detection**
+
+---
 
 ## Setup
 
-1. **Python 3.10 / 3.11** venv banayein aur install karein:
+1. **Create a Python 3.10 / 3.11 virtual environment and install dependencies:**
+
    ```bash
    python -m venv venv
    venv\Scripts\activate          # Linux/Mac: source venv/bin/activate
    pip install -r requirements.txt
    ```
-   Windows par `insightface` build ke liye *Microsoft C++ Build Tools* chahiye hote hain.
-2. **MySQL** chal raha ho. `.env.example` ko `.env` copy karein aur DB user/password + `ADMIN_KEY` set karein.
-   Database `face_attendance` app khud bana leti hai, tables bhi (`db.create_all()`).
-3. `config/config.py` mein **`CAMERAS` array** edit karein (CCTV RTSP urls + 1 webcam entry).
-   Testing ke liye `source` mein video file path ya local camera index (`0`) bhi chal jata hai.
-4. Run:
+
+   On Windows, **Microsoft C++ Build Tools** may be required to build `insightface`.
+
+2. **Make sure MySQL is running.**
+
+   Copy `.env.example` to `.env` and configure the database username/password and `ADMIN_KEY`.
+
+   The application automatically creates the `face_attendance` database and its required tables using `db.create_all()`.
+
+3. **Configure cameras** in `config/config.py` by editing the `CAMERAS` array.
+
+   Add your CCTV RTSP URLs and one webcam entry.
+
+   For testing, the `source` field can also use:
+
+   * A video file path
+   * A local camera index such as `0`
+
+4. **Run the application:**
+
    ```bash
    python app.py
    ```
-   Pehli baar `buffalo_l` model (~280 MB) `~/.insightface` mein download hoga.
-5. Browser: `http://localhost:5000`
 
-> Browser webcam sirf **localhost** ya **HTTPS** par chalta hai. Doosre PC se kholna ho to:
-> `openssl req -x509 -newkey rsa:2048 -nodes -keyout key.pem -out cert.pem -days 365 -subj "/CN=localhost"`
-> phir `.env` mein `SSL_CERT=cert.pem` aur `SSL_KEY=key.pem`.
+   On the first run, the **InsightFace `buffalo_l` AI model (~280 MB)** will be downloaded to:
+
+   ```text
+   ~/.insightface
+   ```
+
+5. **Open the application:**
+
+   ```text
+   http://localhost:5000
+   ```
+
+> **Browser Webcam Requirement:**
+> Browser webcam access works only on `localhost` or over **HTTPS**.
+>
+> If you need to access the application from another PC, generate a self-signed SSL certificate:
+>
+> ```bash
+> openssl req -x509 -newkey rsa:2048 -nodes -keyout key.pem -out cert.pem -days 365 -subj "/CN=localhost"
+> ```
+>
+> Then configure the following values in `.env`:
+>
+> ```env
+> SSL_CERT=cert.pem
+> SSL_KEY=key.pem
+> ```
 
 ## Pages
 
-| URL | Kaam |
-|---|---|
-| `/` | Webcam attendance + saare CCTV live feeds + recent events |
-| `/register` | Employee register (6 frames capture), list, delete |
-| `/logs` | System logs (filter + live), Attendance (date wise), Unknown faces (visit count) |
+| URL         | Description                                                                                             |
+| ----------- | ------------------------------------------------------------------------------------------------------- |
+| `/`         | AI-powered webcam attendance, all CCTV live feeds, and recent events                                    |
+| `/register` | Employee registration with AI face capture, 6-frame enrollment, employee list, and delete functionality |
+| `/logs`     | System logs with filtering and live updates, date-wise attendance, and unknown-face visit counts        |
 
-## Architecture
+## AI Architecture
 
-- **Sockets:** `/webcam` (browser -> server frames, register), `/cctv` (server -> browser CCTV frames), `/events` (live logs). Attendance aur registration REST se nahi, sirf socket se.
-- **Camera array:** `CAMERAS` mein jitni entries, utne cameras. Har `cctv` entry = 2 threads (reader + processor). `webcam` entry = browser socket source.
-- **Embeddings:** InsightFace `buffalo_l`, 512-dim, L2-normalised. ChromaDB mein cosine search.
-- **Attendance:** `CONFIRM_FRAMES` (2) qareebi frames mein match ho tab hi mark. Din ki pehli detection = check-in, 30 min baad dobara dikha to check-out (last seen) update.
-- **Unknown:** achi quality ka unknown face `unknown_faces` table + snapshot mein save. Same banda `UNKNOWN_VISIT_GAP` (60s) ghayab rehne ke baad wapas aaye to visit count +1.
-- **Duplicate registration:** naya face vector DB mein search hota hai, similarity >= `DUPLICATE_THRESHOLD` ho to reject (aur `emp_code` unique hai).
-- **Failures:** camera offline/online, DB errors, socket exceptions sab `system_logs` table + `logs/app.log` mein. CCTV stream toote to auto-reconnect.
+### 1. AI Face Detection
 
-## Accuracy tuning
+The system uses **InsightFace**, a deep-learning-based computer vision framework, to detect faces from webcam and CCTV frames.
 
-Accuracy camera quality par depend karti hai — koi library 95-99.9% ki guarantee nahi de sakti. Behtar result ke liye:
+The AI pipeline processes incoming frames and identifies faces before performing recognition.
 
-- Face frame mein kam az kam ~80-100 px ho (camera dur ho to main stream use karein, sub-stream nahi).
-- Registration achi roshni mein karein, 5-6 samples (app khud quality check karti hai).
-- `MATCH_THRESHOLD` badhayein (0.55-0.60) = false accept kam, magar kabhi kabhi real banda miss ho sakta hai.
-- Apne camera ka test karein: registered logon ki `sim` values dekhein (live page par dikhti hain) aur threshold un ke hisab se set karein.
+### 2. Face Recognition
 
-## Production notes
+For every detected face, the AI model generates a **512-dimensional face embedding**.
 
-- `ADMIN_KEY` zaroor badlein; logs/live pages par login bhi lagayein.
-- Ye single-process app hai (threads share memory). Ek se zyada gunicorn workers mat chalayein.
-- Employee delete karne par uski attendance rows bhi delete hoti hain.
+These embeddings represent the facial characteristics of a person and are used for identity matching.
+
+Embeddings are:
+
+* Generated using InsightFace `buffalo_l`
+* 512-dimensional
+* L2-normalized
+* Stored in ChromaDB
+* Compared using cosine similarity
+
+### 3. AI Identity Matching
+
+The system compares the detected face embedding against registered employee embeddings in ChromaDB.
+
+If the similarity score passes the configured `MATCH_THRESHOLD`, the employee can be recognized.
+
+To reduce false matches, the system uses **multi-frame confirmation** instead of relying on a single frame.
+
+`CONFIRM_FRAMES` is set to `2` by default.
+
+### 4. AI Attendance Detection
+
+Once an employee is successfully verified by the AI system:
+
+* The first detection of the day is recorded as **check-in**.
+* If the employee is detected again after 30 minutes, the **check-out / last-seen time** is updated.
+* Multiple frames are used for confirmation before attendance is recorded.
+
+### 5. AI Unknown Face Detection
+
+When the AI detects a face that does not match any registered employee, it can classify it as an **unknown face**.
+
+High-quality unknown faces are stored in the `unknown_faces` table along with a snapshot.
+
+If the same unknown person disappears for `UNKNOWN_VISIT_GAP` (60 seconds) and returns, their visit count is increased by `1`.
+
+### 6. AI Duplicate Registration Detection
+
+During employee registration, the new face embedding is compared against existing employee embeddings.
+
+If the similarity is greater than or equal to `DUPLICATE_THRESHOLD`, the system rejects the registration to prevent the same person from being registered multiple times.
+
+`emp_code` is also required to be unique.
+
+---
+
+## Real-Time AI Processing
+
+The system supports real-time processing of:
+
+* Browser webcam
+* CCTV RTSP streams
+* Multiple cameras
+* Face detection
+* Face recognition
+* Attendance verification
+* Unknown face detection
+* Live events and system logs
+
+Each CCTV camera uses two processing threads:
+
+```text
+CCTV Camera
+     ↓
+Reader Thread
+     ↓
+Video Frames
+     ↓
+AI Processing Thread
+     ↓
+Face Detection
+     ↓
+Face Embedding
+     ↓
+ChromaDB Similarity Search
+     ↓
+Employee / Unknown
+     ↓
+Attendance / Event
+     ↓
+Browser Dashboard
+```
+
+---
+
+## Accuracy Tuning
+
+Face recognition accuracy depends heavily on camera quality, lighting, face size, camera position, and image quality.
+
+No face-recognition system can guarantee **95–99.9% accuracy** in every environment.
+
+For better results:
+
+* Keep the face at least **~80–100 pixels** in the camera frame.
+* If the camera is far away, use the **main stream instead of the sub-stream**.
+* Register employees in good lighting.
+* Capture **5–6 registration samples**.
+* The application performs face-quality checks automatically.
+* Increase `MATCH_THRESHOLD` (for example, `0.55–0.60`) to reduce false matches.
+* A higher threshold can also cause genuine employees to be missed.
+* Monitor the `sim` similarity values on the live page and tune the threshold according to your actual camera environment.
+
+---
+
+## Production Notes
+
+* **Change the default `ADMIN_KEY`** before deploying to production.
+* Add authentication/login protection to the logs and live monitoring pages.
+* This is a **single-process application** because multiple threads share in-memory state.
+* Do not run multiple Gunicorn workers.
+* CCTV streams automatically reconnect when a connection is interrupted.
+* Camera failures, database errors, and Socket.IO exceptions are stored in `system_logs` and `logs/app.log`.
+* Deleting an employee also deletes their associated attendance records.
+
+---
+
+## Future AI Capabilities
+
+The architecture can be extended with additional AI computer-vision modules, including:
+
+* **Face Liveness / Anti-Spoofing**
+* **Person Detection**
+* **Person Tracking**
+* **Gender Detection**
+* **Action Recognition**
+* **Fight Detection**
+* **Fall Detection**
+* **Weapon Detection**
+* **Intrusion Detection**
+* **Restricted-Area Monitoring**
+* **Real-time AI Alerts**
+* **AI-based CCTV Analytics**
+
+This makes the system suitable as a foundation for an **AI-powered CCTV and intelligent attendance platform**.
