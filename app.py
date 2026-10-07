@@ -148,6 +148,30 @@ class FaceAttendanceApp:
 
             return render_template("logs.html", tab=tab, rows=rows, category=category, level=level, day=day)
 
+        @self.app.post("/api/auth/login")
+        def auth_login():
+            from flask import jsonify
+            from service.auth import AuthService
+            body = request.get_json(silent=True) or {}
+            res = AuthService().login(body.get("username"), body.get("password"))
+            return jsonify(res.to_dict()), res.status_code
+
+        @self.app.post("/api/auth/logout")
+        def auth_logout():
+            from flask import jsonify
+            from service.auth import AuthService
+            token = request.headers.get("Authorization", "").replace("Bearer ", "")
+            res = AuthService().logout(token)
+            return jsonify(res.to_dict()), res.status_code
+
+        @self.app.get("/api/auth/me")
+        def auth_me():
+            from flask import jsonify
+            from service.auth import AuthService
+            token = request.headers.get("Authorization", "").replace("Bearer ", "")
+            res = AuthService().me(token)
+            return jsonify(res.to_dict()), res.status_code
+
     def _register_socket_events(self):
         """SocketIO namespaces aur unke events bind karna."""
 
