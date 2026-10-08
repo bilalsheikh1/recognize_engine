@@ -66,6 +66,13 @@
 
     socketCctv.on('cctv_frame', (data) => {
         if (currentCameraId && String(data.camera_id) === String(currentCameraId)) {
+            // Canvas ko stream ke actual (native) frame size jitna rakho, taake yahan
+            // draw kiye gaye zone points Live page / backend detection se match karein.
+            if (data.frame_w && data.frame_h &&
+                (canvas.width !== data.frame_w || canvas.height !== data.frame_h)) {
+                canvas.width = data.frame_w;
+                canvas.height = data.frame_h;
+            }
             currentFrameImg.src = 'data:image/jpeg;base64,' + data.image;
         }
     });
@@ -179,7 +186,9 @@
 
         if (selectedCam && selectedCam.type === 'webcam') {
             const video = document.createElement('video');
-            navigator.mediaDevices.getUserMedia({ video: true })
+            // Live page jitni hi resolution request karo, taake dono jagah webcam ka
+            // native capture size same rahe aur zone points match karein.
+            navigator.mediaDevices.getUserMedia({ video: { width: { ideal: 640 }, height: { ideal: 480 } } })
                 .then(stream => {
                     localWebcamStream = stream;
                     video.srcObject = stream;
@@ -187,6 +196,11 @@
 
                     webcamInterval = setInterval(() => {
                         if (video.videoWidth > 0) {
+                            // Canvas ko webcam ke actual native frame size jitna rakho.
+                            if (canvas.width !== video.videoWidth || canvas.height !== video.videoHeight) {
+                                canvas.width = video.videoWidth;
+                                canvas.height = video.videoHeight;
+                            }
                             ctx.clearRect(0, 0, canvas.width, canvas.height);
                             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
                             drawActivePolygons();
@@ -231,7 +245,9 @@
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = '#fff';
             ctx.font = '18px Arial';
-            ctx.fillText('Connecting to Stream (Camera ID: ' + currentCameraId + ')...', 420, 360);
+            ctx.textAlign = 'center';
+            ctx.fillText('Connecting to Stream (Camera ID: ' + currentCameraId + ')...', canvas.width / 2, canvas.height / 2);
+            ctx.textAlign = 'left';
         }
 
         drawActivePolygons();
