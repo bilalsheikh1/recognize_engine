@@ -100,7 +100,7 @@ function loop() {
     const image = grabCanvas.toDataURL("image/jpeg", 0.7);
     wc.timeout(5000).emit("frame", {image}, (err, res) => {
       busy = false;
-      if (!err && res && res.ok) draw(res.faces);
+      if (!err && res && res.success) draw(res.data.faces);
     });
   }
   setTimeout(loop, 250);

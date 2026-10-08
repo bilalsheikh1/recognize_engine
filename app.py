@@ -22,6 +22,7 @@ from flask import Flask, render_template, request
 from flask_socketio import emit
 from sqlalchemy.orm import joinedload
 
+from service.response import success, failure
 from service.attendance_service import AttendanceService
 from action.camera.camera_manager import CameraManager
 from extensions import db, socketio, state
@@ -172,6 +173,22 @@ class FaceAttendanceApp:
             res = AuthService().me(token)
             return jsonify(res.to_dict()), res.status_code
 
+        @self.app.get("/api/cameras")
+        def api_cameras():
+            from flask import jsonify
+            from service.response import success
+            cams = []
+            for c in self.manager.info():
+                cams.append({
+                    "id": c["id"],
+                    "camera_id": c["id"],
+                    "name": c["name"],
+                    "type": c["type"],
+                    "location": "Main",
+                    "is_online": True if c["online"] is None else bool(c["online"]),
+                })
+            return jsonify(success("OK", {"cameras": cams}).to_dict())
+
     def _register_socket_events(self):
         """SocketIO namespaces aur unke events bind karna."""
 
@@ -187,43 +204,43 @@ class FaceAttendanceApp:
             try:
                 frame = self.decode_image((data or {}).get("image"))
                 if frame is None:
-                    return {"ok": False, "error": "invalid frame"}
+                    return failure("Invalid frame").to_dict()
                 faces = self.service.process(frame, self.webcam_config["id"], self.webcam_config["name"])
-                return {"ok": True, "faces": faces}
+                return success("OK", {"faces": faces}).to_dict()
             except Exception as exc:
                 log_db("ERROR", "system", self.webcam_config["id"], f"Webcam frame error: {exc}\n{traceback.format_exc()}", throttle=30)
-                return {"ok": False, "error": "server error"}
+                return failure("Server error", status_code=500).to_dict()
 
         @socketio.on("register", namespace="/webcam")
         def on_register(data):
             data = data or {}
             if not self.admin_ok(data.get("admin_key")):
                 log_db("WARNING", "register", request.remote_addr, "Register attempt: galat admin key", throttle=10)
-                return {"ok": False, "message": "Admin key ghalat hai."}
+                return failure("Admin key ghalat hai.", status_code=403).to_dict()
             try:
                 frames = [self.decode_image(x) for x in (data.get("frames") or [])[:12]]
                 frames = [f for f in frames if f is not None]
                 ok, msg = self.service.register_employee(data.get("code"), data.get("name"), data.get("department"), frames)
             except Exception as exc:
                 log_db("ERROR", "system", "register", f"Register error: {exc}\n{traceback.format_exc()}")
-                return {"ok": False, "message": "Server error."}
+                return failure("Server error.", status_code=500).to_dict()
             if ok:
                 socketio.emit("employees_changed", {}, namespace="/webcam")
-            return {"ok": ok, "message": msg}
+            return (success(msg) if ok else failure(msg)).to_dict()
 
         @socketio.on("list_employees", namespace="/webcam")
         def on_list_employees(_data=None):
-            return {"ok": True, "employees": self.service.list_employees()}
+            return success("OK", {"employees": self.service.list_employees()}).to_dict()
 
         @socketio.on("delete_employee", namespace="/webcam")
         def on_delete_employee(data):
             data = data or {}
             if not self.admin_ok(data.get("admin_key")):
-                return {"ok": False, "message": "Admin key ghalat hai."}
+                return failure("Admin key ghalat hai.", status_code=403).to_dict()
             ok, msg = self.service.delete_employee(data.get("id"))
             if ok:
                 socketio.emit("employees_changed", {}, namespace="/webcam")
-            return {"ok": ok, "message": msg}
+            return (success(msg) if ok else failure(msg)).to_dict()
 
         # ================================================================== /cctv + /events namespaces
         @socketio.on("connect", namespace="/cctv")

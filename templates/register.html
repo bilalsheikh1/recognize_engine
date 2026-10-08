@@ -103,8 +103,8 @@ $("btnRegister").onclick = async () => {
     (err, res) => {
       $("btnRegister").disabled = false;
       if (err || !res) return setMsg("danger", "The server did not respond in time.");
-      setMsg(res.ok ? "success" : "danger", res.message);
-      if (res.ok) { $("code").value = ""; $("name").value = ""; $("dept").value = ""; }
+      setMsg(res.success ? "success" : "danger", res.message);
+      if (res.success) { $("code").value = ""; $("name").value = ""; $("dept").value = ""; }
     });
 };
 
@@ -113,7 +113,7 @@ function loadEmployees() {
   wc.emit("list_employees", {}, (res) => {
     const body = $("empBody");
     body.innerHTML = "";
-    const rows = (res && res.employees) || [];
+    const rows = (res && res.data.employees) || [];
     if (!rows.length) {
       body.innerHTML = '<tr><td colspan="5" class="text-secondary">No employees registered yet.</td></tr>';
       return;
@@ -125,7 +125,7 @@ function loadEmployees() {
       tr.querySelector("button").onclick = () => {
         if (!confirm(`Delete ${e.name}? Their attendance records will be deleted too.`)) return;
         wc.emit("delete_employee", {id: e.id, admin_key: $("adminKey").value}, (r) => {
-          setMsg(r && r.ok ? "success" : "danger", (r && r.message) || "Delete failed.");
+          setMsg(r && r.success ? "success" : "danger", (r && r.message) || "Delete failed.");
         });
       };
       body.appendChild(tr);

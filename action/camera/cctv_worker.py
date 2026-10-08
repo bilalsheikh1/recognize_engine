@@ -1,3 +1,4 @@
+import traceback
 import threading
 from logging_utils import log_db
 from extensions import socketio
