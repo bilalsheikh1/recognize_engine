@@ -1,0 +1,360 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid mt-3">
+    <h2>CCTV Zone Configurator</h2>
+
+    <div class="row">
+        <div class="col-md-9">
+            <div style="position: relative; display: inline-block; background: #000;">
+                <canvas id="cctvCanvas" width="1280" height="720" style="border: 2px solid #007bff; cursor: crosshair;"></canvas>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card p-3 shadow-sm">
+                <h5>Controls</h5>
+                <div class="form-group mb-3">
+                    <label>Camera Select:</label>
+                    <div class="input-group">
+                        <select id="cameraSelect" class="form-control" onchange="switchCamera()" disabled>
+                            <option value="">Loading Cameras...</option>
+                        </select>
+                        <button class="btn btn-outline-secondary" type="button" onclick="fetchCameraZones()" title="Fetch Zones for Selected Camera" disabled>
+                            🔄
+                        </button>
+                        <button class="btn btn-outline-secondary" type="button" onclick="fetchCameras()" title="Refresh Camera List">
+                            📷
+                        </button>
+                    </div>
+                </div>
+
+                <hr>
+                <button class="btn btn-success mb-2 w-100" onclick="setMode('door_zone')">Draw Door Zone (Green)</button>
+                <button class="btn btn-danger mb-2 w-100" onclick="setMode('exit_zone')">Draw Exit Zone (Red)</button>
+                <button class="btn btn-warning mb-2 w-100" onclick="clearCurrentZone()">Clear Selected Zone</button>
+
+                <hr>
+                <div class="form-group mb-3">
+                    <label>Admin Key:</label>
+                    <input type="password" id="adminKey" class="form-control" placeholder="Enter Admin Key">
+                </div>
+                <button class="btn btn-primary w-100" onclick="saveZones()">Save Selected Camera Zones</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+<script>
+    const socketCctv = io('/cctv');
+    const canvas = document.getElementById('cctvCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // DB se aane wale tamam cameras (dynamically fetched, Camera Management page jitne bhi add karein)
+    let camerasConfig = [];
+    let currentCameraId = null;
+    let activeMode = 'door_zone';
+    let currentFrameImg = new Image();
+    let isSocketFrameLoaded = false;
+
+    let localWebcamStream = null;
+    let webcamInterval = null;
+
+    // Ismap mein selected camera zones store honge
+    let allCameraZones = {};
+
+    socketCctv.on('cctv_frame', (data) => {
+        if (currentCameraId && String(data.camera_id) === String(currentCameraId)) {
+            currentFrameImg.src = 'data:image/jpeg;base64,' + data.image;
+        }
+    });
+
+    currentFrameImg.onload = () => {
+        isSocketFrameLoaded = true;
+        renderCanvas();
+    };
+
+    // DB se har camera (Camera Management page se jo bhi add/delete ho) dynamically fetch karke dropdown banata hai
+    function fetchCameras() {
+        const selectElem = document.getElementById('cameraSelect');
+        const fetchZonesBtn = document.querySelector('button[onclick="fetchCameraZones()"]');
+        const previousCameraId = currentCameraId;
+
+        fetch('/api/cameras')
+            .then(res => res.json())
+            .then(data => {
+                camerasConfig = (data.ok && Array.isArray(data.cameras)) ? data.cameras : [];
+
+                selectElem.innerHTML = '';
+                if (camerasConfig.length === 0) {
+                    selectElem.innerHTML = '<option value="">No Camera Available</option>';
+                    selectElem.disabled = true;
+                    if (fetchZonesBtn) fetchZonesBtn.disabled = true;
+                    currentCameraId = null;
+                    renderNoCameraState("No Camera Accessible");
+                    return;
+                }
+
+                camerasConfig.forEach(cam => {
+                    const opt = document.createElement('option');
+                    opt.value = cam.id;
+                    opt.textContent = `${cam.name} (${(cam.type || '').toUpperCase()})`;
+                    selectElem.appendChild(opt);
+                });
+                selectElem.disabled = false;
+                if (fetchZonesBtn) fetchZonesBtn.disabled = false;
+
+                // Agar pehle se koi camera selected tha aur abhi bhi list mein mojood hai to wahi rakho
+                const stillExists = camerasConfig.some(c => String(c.id) === String(previousCameraId));
+                selectElem.value = stillExists ? previousCameraId : camerasConfig[0].id;
+                currentCameraId = selectElem.value;
+
+                fetchCameraZones();
+                initializeStream();
+            })
+            .catch(err => {
+                console.error("Database se cameras load nahi ho sake:", err);
+                renderNoCameraState("Camera List Load Nahi Ho Saki");
+            });
+    }
+
+    // Specific Selected Camera ke Zones DB se fetch karne ka function
+    function fetchCameraZones() {
+        if (!currentCameraId) return;
+
+        fetch(`/api/get_zones/${currentCameraId}`)
+            .then(res => {
+                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                return res.json();
+            })
+            .then(data => {
+                // Initialize default empty structure for selected camera
+                allCameraZones[currentCameraId] = { door_zone: [], exit_zone: [] };
+
+                const rawZones = data.zones || data.data || data;
+
+                if (Array.isArray(rawZones)) {
+                    rawZones.forEach(z => {
+                        const zoneType = z.type || z.zone_type || z.id;
+                        if (zoneType === 'checkin' || zoneType === 'door_zone') {
+                            allCameraZones[currentCameraId].door_zone = z.polygon || z.points || [];
+                        } else if (zoneType === 'checkout' || zoneType === 'exit_zone') {
+                            allCameraZones[currentCameraId].exit_zone = z.polygon || z.points || [];
+                        }
+                    });
+                } else if (typeof rawZones === 'object') {
+                    if (rawZones[currentCameraId]) {
+                        allCameraZones[currentCameraId] = rawZones[currentCameraId];
+                    } else if (rawZones.door_zone || rawZones.exit_zone) {
+                        allCameraZones[currentCameraId] = {
+                            door_zone: rawZones.door_zone || [],
+                            exit_zone: rawZones.exit_zone || []
+                        };
+                    }
+                }
+                renderCanvas();
+            })
+            .catch(err => {
+                console.error("Error fetching camera zones:", err);
+                allCameraZones[currentCameraId] = { door_zone: [], exit_zone: [] };
+                renderCanvas();
+            });
+    }
+
+    function initializeStream() {
+        if (webcamInterval) clearInterval(webcamInterval);
+        if (localWebcamStream) {
+            localWebcamStream.getTracks().forEach(track => track.stop());
+            localWebcamStream = null;
+        }
+        isSocketFrameLoaded = false;
+
+        if (!currentCameraId || camerasConfig.length === 0) {
+            renderNoCameraState("No Camera Accessible");
+            return;
+        }
+
+        const selectedCam = camerasConfig.find(c => String(c.id) === String(currentCameraId));
+
+        if (selectedCam && selectedCam.type === 'webcam') {
+            const video = document.createElement('video');
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    localWebcamStream = stream;
+                    video.srcObject = stream;
+                    video.play();
+
+                    webcamInterval = setInterval(() => {
+                        if (video.videoWidth > 0) {
+                            ctx.clearRect(0, 0, canvas.width, canvas.height);
+                            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                            drawActivePolygons();
+                        }
+                    }, 40);
+                })
+                .catch(err => {
+                    console.error("Webcam Error:", err);
+                    renderNoCameraState("Webcam stream access nahi ho saki.");
+                });
+        } else {
+            renderCanvas();
+        }
+    }
+
+    function renderNoCameraState(message = 'No Camera Accessible') {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#1a1a1a';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#ff4d4d';
+        ctx.font = 'bold 22px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText(message, canvas.width / 2, canvas.height / 2);
+        ctx.textAlign = 'left';
+    }
+
+    function renderCanvas() {
+        if (!currentCameraId || camerasConfig.length === 0) {
+            renderNoCameraState("No Camera Accessible");
+            return;
+        }
+
+        const selectedCam = camerasConfig.find(c => String(c.id) === String(currentCameraId));
+        if (selectedCam && selectedCam.type === 'webcam') return;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (isSocketFrameLoaded && currentFrameImg.complete) {
+            ctx.drawImage(currentFrameImg, 0, 0, canvas.width, canvas.height);
+        } else {
+            ctx.fillStyle = '#111';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#fff';
+            ctx.font = '18px Arial';
+            ctx.fillText('Connecting to Stream (Camera ID: ' + currentCameraId + ')...', 420, 360);
+        }
+
+        drawActivePolygons();
+    }
+
+    function drawActivePolygons() {
+        if (!currentCameraId) return;
+
+        const zones = allCameraZones[currentCameraId] || { door_zone: [], exit_zone: [] };
+        if (zones.door_zone && zones.door_zone.length > 0) {
+            drawPolygon(zones.door_zone, '#00FF00', 'rgba(0, 255, 0, 0.25)');
+        }
+        if (zones.exit_zone && zones.exit_zone.length > 0) {
+            drawPolygon(zones.exit_zone, '#FF0000', 'rgba(255, 0, 0, 0.25)');
+        }
+    }
+
+    function drawPolygon(points, strokeColor, fillColor) {
+        if (!points || points.length === 0) return;
+
+        ctx.beginPath();
+        ctx.strokeStyle = strokeColor;
+        ctx.fillStyle = fillColor;
+        ctx.lineWidth = 3;
+
+        ctx.moveTo(points[0][0], points[0][1]);
+        for (let i = 1; i < points.length; i++) {
+            ctx.lineTo(points[i][0], points[i][1]);
+        }
+
+        if (points.length > 2) {
+            ctx.closePath();
+            ctx.fill();
+        }
+        ctx.stroke();
+
+        points.forEach(pt => {
+            ctx.beginPath();
+            ctx.arc(pt[0], pt[1], 5, 0, 2 * Math.PI);
+            ctx.fillStyle = strokeColor;
+            ctx.fill();
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = '#FFFFFF';
+            ctx.stroke();
+        });
+    }
+
+    canvas.addEventListener('click', (e) => {
+        if (!currentCameraId) return;
+
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+
+        const x = Math.round((e.clientX - rect.left) * scaleX);
+        const y = Math.round((e.clientY - rect.top) * scaleY);
+
+        if (!allCameraZones[currentCameraId]) {
+            allCameraZones[currentCameraId] = { door_zone: [], exit_zone: [] };
+        }
+
+        allCameraZones[currentCameraId][activeMode].push([x, y]);
+
+        const selectedCam = camerasConfig.find(c => String(c.id) === String(currentCameraId));
+        if (!selectedCam || selectedCam.type !== 'webcam') {
+            renderCanvas();
+        }
+    });
+
+    function setMode(mode) {
+        activeMode = mode;
+    }
+
+    function clearCurrentZone() {
+        if (currentCameraId && allCameraZones[currentCameraId]) {
+            allCameraZones[currentCameraId][activeMode] = [];
+            renderCanvas();
+        }
+    }
+
+    // Camera Switch Function
+    function switchCamera() {
+        const elem = document.getElementById('cameraSelect');
+        currentCameraId = elem ? elem.value : null;
+        fetchCameraZones();
+        initializeStream();
+    }
+
+    // Selected Camera Zones ko Save karne ka function
+    function saveZones() {
+        if (!currentCameraId) {
+            alert("No camera selected!");
+            return;
+        }
+
+        const adminKey = document.getElementById('adminKey').value;
+        if (!adminKey) {
+            alert("Admin Key enter karein!");
+            return;
+        }
+
+        const selectedCameraZones = allCameraZones[currentCameraId] || { door_zone: [], exit_zone: [] };
+
+        fetch('/api/save_zones', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                admin_key: adminKey,
+                camera_id: currentCameraId,
+                zones: selectedCameraZones,
+                all_zones: allCameraZones
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            alert(data.message || "Zones Saved Successfully!");
+            fetchCameraZones();
+        })
+        .catch(err => console.error("Save error:", err));
+    }
+
+    window.onload = () => {
+        fetchCameras();
+    };
+</script>
+{% endblock %}
