@@ -1,6 +1,6 @@
 from flask import render_template, request, jsonify
 from models.camera import Camera
-from extensions import db
+from extensions import db, state
 import cv2
 
 class CameraController:
@@ -49,6 +49,10 @@ class CameraController:
             db.session.add(new_camera)
             db.session.commit()
 
+            # Server restart ka wait kiye bina turant stream start karo (CCTV worker)
+            if state.manager:
+                state.manager.add_camera(new_camera)
+
             return jsonify({"ok": True, "message": "Camera successfully add ho gaya hai."})
 
         except Exception as e:
@@ -64,6 +68,10 @@ class CameraController:
 
             db.session.delete(camera)
             db.session.commit()
+
+            if state.manager:
+                state.manager.remove_camera(camera_id)
+
             return jsonify({"ok": True, "message": "Camera deleted."})
         except Exception as e:
             db.session.rollback()
