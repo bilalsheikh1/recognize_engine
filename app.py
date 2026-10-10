@@ -1,4 +1,5 @@
-"""Face Attendance — Flask + Flask-SocketIO (threading) + InsightFace + ChromaDB + MySQL.
+"""
+Face Attendance — Flask + Flask-SocketIO (threading) + InsightFace + ChromaDB + MySQL.
 
 Sockets (namespaces):
   /webcam  browser webcam: frame (attendance), register, list_employees, delete_employee
@@ -7,29 +8,34 @@ Sockets (namespaces):
 Attendance sirf socket se lagti hai — koi REST endpoint nahi.
 """
 from config.config import Config  # sabse pehle: cv2 se pehle env vars set hotay hain
-
+import os
+os.environ["OMP_NUM_THREADS"] = "1"
+import faulthandler; faulthandler.enable()
 import base64
 import hmac
 import logging
 import os
-import traceback
 from datetime import date, datetime
-
 import cv2
 import numpy as np
 import pymysql
 from flask import Flask, render_template, request
-from flask_socketio import emit
 from sqlalchemy.orm import joinedload
 
+# Extension Instances
+from extensions import db, socketio, state
+from logging_utils import log_db, setup_file_logging
+from models import Attendance, SystemLog, UnknownFace  # noqa: F401  (tables register hone ke liye)
+from controllers.socket.socket_controller import socket_controller
+from routes.web import web_bp
+from routes.api import api_bp
+# Services and AI Engines
 from service.attendance_service import AttendanceService
 from action.camera.camera_manager import CameraManager
-from extensions import db, socketio, state
 from action.ai.face.face_engine import FaceEngine
-from logging_utils import log_db, setup_file_logging
 from v_db.vector_store import VectorStore
+from models.camera import Camera
 
-from models import Attendance, SystemLog, UnknownFace  # noqa: F401  (tables register hone ke liye)
 
 class FaceAttendanceApp:
     def __init__(self):
@@ -37,12 +43,17 @@ class FaceAttendanceApp:
         self.app.config.from_object(Config)
         self.webcam_config = next((c for c in Config.CAMERAS if c["type"] == "webcam"), None)
 
-        # Application setup steps
+        # 1. First ensure database exists on MySQL server
         self._ensure_database()
+
+        # 2. Setup Flask extensions & Application state in correct order
         self._init_extensions()
         self._setup_environment()
+
+        # 3. Register Blueprints and Routes AFTER app context and extensions are fully ready
         self._register_routes()
-        self._register_socket_events()
+        socket_controller.register_events()
+        # self._register_socket_events()
 
     def _ensure_database(self):
         """Database na ho to bana do."""
@@ -61,6 +72,7 @@ class FaceAttendanceApp:
 
     def _init_extensions(self):
         """Flask extensions aur application state ko initialize karna."""
+        # Step A: Bind DB & SocketIO with App Instance
         db.init_app(self.app)
         socketio.init_app(
             self.app,
@@ -72,14 +84,22 @@ class FaceAttendanceApp:
         state.app = self.app
         setup_file_logging()
 
+        # Step B: Execute DB Operations & Load Cache WITHIN App Context
         with self.app.app_context():
             db.create_all()
 
-        # Business logic engines aur managers initialization
-        state.engine = FaceEngine()
-        state.store = VectorStore()
-        state.service = AttendanceService(self.app, state.engine, state.store)
-        state.manager = CameraManager(Config.CAMERAS, state.service)
+            # Business logic engines aur managers initialization
+            state.engine = FaceEngine()
+            state.store = VectorStore()
+
+            # Yahan Employee.query.all() safely execute ho jaye ga
+            state.service = AttendanceService(self.app, state.engine, state.store)
+            camera = Camera().query.all()
+            print(" camera query data: ")
+            print(camera)
+
+            # Config.CAMERAS
+            state.manager = CameraManager(camera, state.service)
 
         # Class attributes me reference save karna short syntax k liye
         self.service = state.service
@@ -105,15 +125,21 @@ class FaceAttendanceApp:
         return hmac.compare_digest(str(key or "").encode(), Config.ADMIN_KEY.encode())
 
     def _register_routes(self):
-        """HTML pages ke routes register karna."""
 
-        @self.app.route("/")
-        def live_page():
-            return render_template("live.html", cameras=self.manager.info(), webcam=self.webcam_config)
+        self.app.register_blueprint(web_bp)
+        self.app.register_blueprint(api_bp)
 
         @self.app.route("/register")
         def register_page():
             return render_template("register.html", webcam=self.webcam_config)
+
+        @self.app.route("/zones")
+        def zones_page():
+            return render_template("zones.html", cameras=self.manager.info(), webcam=self.webcam_config)
+
+        @self.app.route("/camera")
+        def camera_page():
+            return render_template("cameras.html", cameras=self.manager.info(), webcam=self.webcam_config)
 
         @self.app.route("/logs")
         def logs_page():
@@ -148,74 +174,6 @@ class FaceAttendanceApp:
 
             return render_template("logs.html", tab=tab, rows=rows, category=category, level=level, day=day)
 
-    def _register_socket_events(self):
-        """SocketIO namespaces aur unke events bind karna."""
-
-        # ================================================================== /webcam namespace
-        @socketio.on("connect", namespace="/webcam")
-        def webcam_connect():
-            if self.webcam_config is None:
-                log_db("ERROR", "system", "webcam", "CAMERAS array mein type='webcam' entry nahi hai")
-                return False
-
-        @socketio.on("frame", namespace="/webcam")
-        def on_frame(data):
-            try:
-                frame = self.decode_image((data or {}).get("image"))
-                if frame is None:
-                    return {"ok": False, "error": "invalid frame"}
-                faces = self.service.process(frame, self.webcam_config["id"], self.webcam_config["name"])
-                return {"ok": True, "faces": faces}
-            except Exception as exc:
-                log_db("ERROR", "system", self.webcam_config["id"], f"Webcam frame error: {exc}\n{traceback.format_exc()}", throttle=30)
-                return {"ok": False, "error": "server error"}
-
-        @socketio.on("register", namespace="/webcam")
-        def on_register(data):
-            data = data or {}
-            if not self.admin_ok(data.get("admin_key")):
-                log_db("WARNING", "register", request.remote_addr, "Register attempt: galat admin key", throttle=10)
-                return {"ok": False, "message": "Admin key ghalat hai."}
-            try:
-                frames = [self.decode_image(x) for x in (data.get("frames") or [])[:12]]
-                frames = [f for f in frames if f is not None]
-                ok, msg = self.service.register_employee(data.get("code"), data.get("name"), data.get("department"), frames)
-            except Exception as exc:
-                log_db("ERROR", "system", "register", f"Register error: {exc}\n{traceback.format_exc()}")
-                return {"ok": False, "message": "Server error."}
-            if ok:
-                socketio.emit("employees_changed", {}, namespace="/webcam")
-            return {"ok": ok, "message": msg}
-
-        @socketio.on("list_employees", namespace="/webcam")
-        def on_list_employees(_data=None):
-            return {"ok": True, "employees": self.service.list_employees()}
-
-        @socketio.on("delete_employee", namespace="/webcam")
-        def on_delete_employee(data):
-            data = data or {}
-            if not self.admin_ok(data.get("admin_key")):
-                return {"ok": False, "message": "Admin key ghalat hai."}
-            ok, msg = self.service.delete_employee(data.get("id"))
-            if ok:
-                socketio.emit("employees_changed", {}, namespace="/webcam")
-            return {"ok": ok, "message": msg}
-
-        # ================================================================== /cctv + /events namespaces
-        @socketio.on("connect", namespace="/cctv")
-        def cctv_connect():
-            emit("camera_list", self.manager.info())
-
-        @socketio.on("connect", namespace="/events")
-        def events_connect():
-            pass
-
-        # Global Socket Error Handler
-        @socketio.on_error_default
-        def on_socket_error(exc):
-            ev = getattr(request, "event", {}).get("message", "?")
-            log_db("ERROR", "system", f"socket:{ev}", f"{type(exc).__name__}: {exc}\n{traceback.format_exc()}", throttle=10)
-
     def run(self):
         """Application aur background camera manager ko start karna."""
         self.manager.start()  # CCTV threads start
@@ -226,13 +184,23 @@ class FaceAttendanceApp:
             kwargs["ssl_context"] = (Config.SSL_CERT, Config.SSL_KEY)
 
         # use_reloader=False zaroori hai warna model + camera threads do baar start ho jate hain
+        # socketio.run(
+        #     self.app,
+        #     host=Config.HOST,
+        #     port=Config.PORT,
+        #     debug=True,
+        #     use_reloader=False,
+        #     **kwargs
+        # )
+
         socketio.run(
             self.app,
-            host=Config.HOST,
-            port=Config.PORT,
+            host='0.0.0.0',
+            port=5000,
             debug=True,
             use_reloader=False,
-            **kwargs
+            allow_unsafe_werkzeug=True,
+            log_output=False
         )
 
 

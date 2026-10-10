@@ -1,155 +1,562 @@
 {% extends "base.html" %}
-{% block title %}Live attendance{% endblock %}
 
 {% block content %}
-<div class="row g-4">
-  <div class="col-lg-5">
-    <div class="card">
-      <div class="card-header d-flex justify-content-between align-items-center">
-        <span>{{ webcam.name if webcam else "Webcam (not configured)" }}</span>
-        <span id="wsWebcamStatus" class="badge text-bg-secondary">offline</span>
-      </div>
-      <div class="card-body">
-        <div class="position-relative">
-          <video id="video" class="cam" autoplay muted playsinline></video>
-          <canvas id="overlay" class="position-absolute top-0 start-0 w-100 h-100"></canvas>
-        </div>
-        <div class="mt-3 d-flex gap-2">
-          <button id="btnStart" class="btn btn-success" {% if not webcam %}disabled{% endif %}>Start webcam</button>
-          <button id="btnStop" class="btn btn-outline-danger" disabled>Stop webcam</button>
-        </div>
-        <div id="lastResult" class="mt-3 small text-secondary">Attendance is marked automatically when a registered face is recognised.</div>
-      </div>
-    </div>
+<div class="container-fluid mt-3">
+    <div class="row">
+        <!-- Main Cameras Grid Section -->
+        <div class="col-lg-9 mb-4">
+            <div class="card p-3 shadow-sm bg-dark text-white border-secondary">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="m-0">Camera Feeds & Detection Zones</h5>
+                    <span id="connectionStatus" class="badge bg-secondary">disconnected</span>
+                </div>
 
-    <div class="card mt-4">
-      <div class="card-header">Recent events</div>
-      <ul id="events" class="list-group list-group-flush"></ul>
-    </div>
-  </div>
+                <!-- Dynamic Cameras Grid Container -->
+                <div id="camerasGrid" class="row g-3">
+                    <!-- JavaScript will dynamically render camera cards here -->
+                </div>
 
-  <div class="col-lg-7">
-    <div class="row g-3">
-      {% for c in cameras if c.type == "cctv" %}
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <span>{{ c.name }}</span>
-            <span id="st-{{ c.id }}" class="badge text-bg-secondary">connecting</span>
-          </div>
-          <img id="cam-{{ c.id }}" class="feed" alt="{{ c.name }}"
-               src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+                <div class="mt-3">
+                    <button id="btnStart" class="btn btn-success btn-sm me-2" onclick="startAllCameras()">Start Cameras</button>
+                    <button id="btnStop" class="btn btn-danger btn-sm" onclick="stopAllCameras()">Stop Cameras</button>
+                </div>
+                <div class="mt-2 text-muted small" id="statusText">
+                    Status: Idle
+                </div>
+            </div>
+
+            <!-- Recent Events Log -->
+            <div class="card p-3 shadow-sm bg-dark text-white border-secondary mt-3">
+                <h6 class="m-0 mb-2">Recent Events</h6>
+                <div id="recentEvents" class="text-muted small">
+                    No recent events log.
+                </div>
+            </div>
         </div>
-      </div>
-      {% else %}
-      <div class="col-12"><div class="alert alert-secondary">No CCTV camera in the CAMERAS array (config.py).</div></div>
-      {% endfor %}
+
+        <!-- Camera & Zone Info Panel -->
+        <div class="col-lg-3">
+            <div class="card p-3 shadow-sm bg-dark text-white border-secondary mb-3">
+                <h5 class="m-0 mb-3">Active Zones</h5>
+                <div id="zonesList" class="list-group list-group-flush bg-transparent">
+                    <div class="text-muted small">Loading zones...</div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
-{% endblock %}
 
-{% block scripts %}
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
 <script>
-// ---------------------------------------------------------------- webcam socket (/webcam)
-const wc = io("/webcam", {transports: ["websocket"]});
-const video = $("video"), overlay = $("overlay"), octx = overlay.getContext("2d");
-const grabCanvas = document.createElement("canvas");
-const COLORS = {known: "#3cc83c", unknown: "#e63232", uncertain: "#ffa500"};
-let stream = null, running = false, busy = false;
+    const webcamSocket = io('/webcam');
 
-wc.on("connect", () => setBadge("wsWebcamStatus", "connected", "success"));
-wc.on("disconnect", () => setBadge("wsWebcamStatus", "offline", "secondary"));
-wc.on("connect_error", () => setBadge("wsWebcamStatus", "connection error", "danger"));
+    // Server-side backend cameras pass karein ya API fetch karein
+    let camerasData = {{ cameras | tojson | safe if cameras else '[]' }};
 
-$("btnStart").onclick = async () => {
-  try {
-    stream = await navigator.mediaDevices.getUserMedia({video: {width: 640, height: 480}, audio: false});
-  } catch (e) {
-    alert("Webcam access failed: " + e.message + "\nUse localhost or HTTPS to allow camera access.");
-    return;
-  }
-  video.onloadedmetadata = () => {
-    overlay.width = video.videoWidth;
-    overlay.height = video.videoHeight;
-    running = true;
-    loop();
-  };
-  video.srcObject = stream;
-  $("btnStart").disabled = true;
-  $("btnStop").disabled = false;
-};
+    // ------------------------------------------------------------------ config
+    const FRAME_INTERVAL_MS = 150;   // do frames ke beech gap
+    const ACK_TIMEOUT_MS = 3000;     // server ack na de to loop unlock ho jaye
+    const JPEG_QUALITY = 0.5;
+    const MAX_EVENTS = 20;           // Recent Events mein max items
+    // CCTV ka pehla frame aane tak khali (transparent) placeholder
+    const BLANK_IMG = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 
-$("btnStop").onclick = () => {
-  running = false;
-  if (stream) stream.getTracks().forEach(t => t.stop());
-  video.srcObject = null;
-  octx.clearRect(0, 0, overlay.width, overlay.height);
-  $("btnStart").disabled = false;
-  $("btnStop").disabled = true;
-};
+    // ------------------------------------------------------------------ runtime state
+    const activeStreams = {};        // camId -> MediaStream
+    const startingStreams = {};      // camId -> true (getUserMedia pending)
+    const captureTimers = {};        // camId -> setTimeout id
+    const cameraStates = {};         // camId -> per-camera state
+    let renderLoopRunning = false;
+    let hasEvents = false;
 
-// Ek waqt mein sirf ek frame in-flight: server ack de tab hi agla frame jata hai (backlog nahi banta)
-function loop() {
-  if (!running) return;
-  if (!busy && wc.connected && video.videoWidth) {
-    busy = true;
-    grabCanvas.width = video.videoWidth;
-    grabCanvas.height = video.videoHeight;
-    grabCanvas.getContext("2d").drawImage(video, 0, 0);
-    const image = grabCanvas.toDataURL("image/jpeg", 0.7);
-    wc.timeout(5000).emit("frame", {image}, (err, res) => {
-      busy = false;
-      if (!err && res && res.ok) draw(res.faces);
+    // ------------------------------------------------------------------ small helpers
+    function escapeHtml(value) {
+        const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+        return String(value == null ? '' : value).replace(/[&<>"']/g, ch => map[ch]);
+    }
+
+    function setStatus(text) {
+        document.getElementById('statusText').textContent = 'Status: ' + text;
+    }
+
+    // ------------------------------------------------------------------ zone helpers
+    // Ek hi jagah se polygon nikalte hain: drawing aur backend dono yahi use karte hain.
+
+    // [[x, y], ...] ya [{x, y}, ...] dono ko [[x, y], ...] bana deta hai
+    function normalizePoints(raw) {
+        if (!Array.isArray(raw)) return [];
+        return raw
+            .map(p => {
+                if (Array.isArray(p) && p.length >= 2) return [Number(p[0]), Number(p[1])];
+                if (p && typeof p === 'object' && 'x' in p && 'y' in p) return [Number(p.x), Number(p.y)];
+                return null;
+            })
+            .filter(p => p && Number.isFinite(p[0]) && Number.isFinite(p[1]));
+    }
+
+    // Bowtie / hourglass polygon pakadne ke liye: koi do non-adjacent edges cross karein
+    function segmentsIntersect(p1, p2, p3, p4) {
+        const side = (a, b, c) => (c[0] - a[0]) * (b[1] - a[1]) - (b[0] - a[0]) * (c[1] - a[1]);
+        return side(p1, p3, p4) * side(p2, p3, p4) < 0 && side(p1, p2, p3) * side(p1, p2, p4) < 0;
+    }
+
+    function isSelfIntersecting(poly) {
+        const n = poly.length;
+        for (let i = 0; i < n; i++) {
+            for (let j = i + 1; j < n; j++) {
+                if (Math.abs(i - j) === 1 || (i === 0 && j === n - 1)) continue;
+                if (segmentsIntersect(poly[i], poly[(i + 1) % n], poly[j], poly[(j + 1) % n])) return true;
+            }
+        }
+        return false;
+    }
+
+    // Sirf bowtie polygon ke points centroid ke angle se sort hote hain; theek polygon
+    // (concave bhi) jaisa hai waisa rehta hai. Backend (zone_controller.normalize_polygon) bhi yehi
+    // karta hai, taake page pe dikhne wala zone aur attendance wala zone same ho.
+    function sortPolygonPoints(pts) {
+        if (pts.length < 4 || !isSelfIntersecting(pts)) return pts;
+        const cx = pts.reduce((s, p) => s + p[0], 0) / pts.length;
+        const cy = pts.reduce((s, p) => s + p[1], 0) / pts.length;
+        return [...pts].sort(
+            (a, b) => Math.atan2(a[1] - cy, a[0] - cx) - Math.atan2(b[1] - cy, b[0] - cx)
+        );
+    }
+
+    function getZonePolygon(zone) {
+        return sortPolygonPoints(normalizePoints(zone.polygon || zone.points || []));
+    }
+
+    // 'door' (check-in) ya 'exit' (check-out); baaki zones sirf draw hote hain
+    function getZoneKind(zone) {
+        const type = String(zone.type || '').toLowerCase();
+        const key = String(zone.zone_key || '').toLowerCase();
+        const name = String(zone.name || '').toLowerCase();
+        // DB mein type 'checkin' / 'checkout' aur zone_key 'door_zone' / 'exit_zone' hota hai
+        if (['door', 'check_in', 'checkin'].includes(type) || key === 'door_zone' || name.includes('door')) return 'door';
+        if (['exit', 'check_out', 'checkout'].includes(type) || key === 'exit_zone' || name.includes('exit')) return 'exit';
+        return null;
+    }
+
+    function prepareZones(rawZones) {
+        return (rawZones || []).map(zone => Object.assign({}, zone, {
+            poly: getZonePolygon(zone),
+            kind: getZoneKind(zone)
+        }));
+    }
+
+    function buildDbZones(state) {
+        const door = state.zones.find(z => z.kind === 'door');
+        const exit = state.zones.find(z => z.kind === 'exit');
+        return {
+            door_zone: door ? door.poly : [],
+            exit_zone: exit ? exit.poly : []
+        };
+    }
+
+    // object-fit: cover ke hisaab se source pixels -> canvas pixels mapping
+    function getCoverFit(displayW, displayH, srcW, srcH) {
+        const scale = Math.max(displayW / srcW, displayH / srcH);
+        return {
+            scale: scale,
+            offX: (displayW - srcW * scale) / 2,
+            offY: (displayH - srcH * scale) / 2
+        };
+    }
+
+    // ------------------------------------------------------------------ socket status
+    webcamSocket.on('connect', () => {
+        document.getElementById('connectionStatus').className = 'badge bg-success';
+        document.getElementById('connectionStatus').innerText = 'connected';
     });
-  }
-  setTimeout(loop, 250);
-}
 
-function draw(faces) {
-  octx.clearRect(0, 0, overlay.width, overlay.height);
-  octx.lineWidth = 3;
-  octx.font = "18px sans-serif";
-  faces.forEach(f => {
-    const [x1, y1, x2, y2] = f.box, color = COLORS[f.kind] || "#ccc";
-    const text = f.label + (f.kind === "known" ? ` (${f.sim})` : (f.count ? ` x${f.count}` : ""));
-    octx.strokeStyle = color;
-    octx.strokeRect(x1, y1, x2 - x1, y2 - y1);
-    octx.fillStyle = color;
-    octx.fillRect(x1, y1 - 24, octx.measureText(text).width + 10, 24);
-    octx.fillStyle = "#fff";
-    octx.fillText(text, x1 + 5, y1 - 6);
-  });
-  $("lastResult").textContent = faces.length
-    ? faces.map(f => `${f.label}: ${f.status}`).join("  |  ")
-    : "No face in view";
-}
+    webcamSocket.on('disconnect', () => {
+        document.getElementById('connectionStatus').className = 'badge bg-secondary';
+        document.getElementById('connectionStatus').innerText = 'disconnected';
+    });
 
-// ---------------------------------------------------------------- CCTV socket (/cctv)
-const cc = io("/cctv", {transports: ["websocket"]});
-function setCam(id, online) {
-  if (online === null || online === undefined) return setBadge("st-" + id, "connecting", "secondary");
-  setBadge("st-" + id, online ? "online" : "offline", online ? "success" : "danger");
-}
-cc.on("camera_list", list => list.forEach(c => c.type === "cctv" && setCam(c.id, c.online)));
-cc.on("camera_status", d => setCam(d.camera_id, d.online));
-cc.on("cctv_frame", d => {
-  const img = $("cam-" + d.camera_id);
-  if (img) img.src = "data:image/jpeg;base64," + d.image;
-});
+    // CCTV: backend worker boxes wali annotated frames is namespace pe bhejta hai (cctv_frame)
+    const cctvSocket = io('/cctv');
 
-// ---------------------------------------------------------------- live events (/events)
-const ev = io("/events", {transports: ["websocket"]});
-ev.on("new_log", d => {
-  if (d.category === "system" && d.level === "INFO") return;
-  const li = document.createElement("li");
-  li.className = "list-group-item d-flex gap-2";
-  li.innerHTML = `<span class="badge text-bg-${LEVEL_CLASS[d.level] || "secondary"}">${esc(d.category)}</span>` +
-                 `<span class="flex-grow-1 text-break">${esc(d.message.split("\n")[0])}</span>` +
-                 `<span class="text-secondary small">${esc(d.time.slice(11))}</span>`;
-  const list = $("events");
-  list.prepend(li);
-  while (list.children.length > 12) list.lastChild.remove();
-});
+    const warnedCctvIds = {};
+    cctvSocket.on('cctv_frame', (data) => {
+        const img = document.getElementById(`img_${data.camera_id}`);
+        if (!img) {
+            if (!warnedCctvIds[data.camera_id]) {
+                warnedCctvIds[data.camera_id] = true;
+                console.warn(`cctv_frame aaya camera_id="${data.camera_id}" ke liye, lekin is id ka koi CCTV card nahi (cameras API ki id match nahi karti)`);
+            }
+            return;
+        }
+
+        img.src = 'data:image/jpeg;base64,' + data.image;
+
+        // Zones original frame ki size ke hisaab se scale hote hain (image resize ho kar aati hai)
+        const state = cameraStates[data.camera_id];
+        if (state && data.frame_w && data.frame_h) {
+            state.srcW = data.frame_w;
+            state.srcH = data.frame_h;
+        }
+    });
+
+    // 1. Fetch Cameras & Zones Data from API if needed
+    async function loadCamerasAndZones() {
+        try {
+            // Agar aapke paas API endpoint `/api/cameras` hai:
+            const response = await fetch('/api/cameras');
+            if (response.ok) {
+                const data = await response.json();
+                if (Array.isArray(data)) camerasData = data;
+                else if (data && data.cameras) camerasData = data.cameras;
+            }
+        } catch (err) {
+            console.log("Using initial template cameras data");
+        }
+
+        renderCamerasGrid();
+        renderZonesList();
+    }
+
+    // 2. Render Dynamic Camera Grid UI
+    function renderCamerasGrid() {
+        const grid = document.getElementById('camerasGrid');
+        grid.innerHTML = '';
+
+        if (!camerasData || camerasData.length === 0) {
+            grid.innerHTML = `<div class="col-12"><div class="alert alert-warning">No cameras found.</div></div>`;
+            return;
+        }
+
+        // Determine column width based on camera count
+        let colClass = "col-md-12";
+        if (camerasData.length === 2) colClass = "col-md-6";
+        else if (camerasData.length >= 3) colClass = "col-md-6 col-lg-4";
+
+        camerasData.forEach(cam => {
+            cameraStates[cam.id] = {
+                currentFaces: [],
+                lastDetectionTime: 0,
+                isProcessing: false,
+                zones: prepareZones(cam.zones),
+                captureCanvas: document.createElement('canvas')
+            };
+
+            const cardHtml = `
+                <div class="${colClass}">
+                    <div class="card bg-black text-white border-secondary overflow-hidden">
+                        <div class="card-header p-2 bg-secondary d-flex justify-content-between align-items-center">
+                            <small class="fw-bold text-truncate">${escapeHtml(cam.name || 'Camera ' + cam.id)}</small>
+                            <span class="badge bg-info">${escapeHtml((cam.type || 'webcam').toUpperCase())}</span>
+                        </div>
+                        <div class="position-relative" style="width: 100%; aspect-ratio: 4/3; background: #000;">
+                            ${cam.type === 'webcam' ?
+                                `<video id="video_${cam.id}" autoplay playsinline muted style="width: 100%; height: 100%; object-fit: cover; display: block;"></video>` :
+                                `<img id="img_${cam.id}" src="${BLANK_IMG}" style="width: 100%; height: 100%; object-fit: cover; display: block;" />`
+                            }
+                            <canvas id="canvas_${cam.id}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            `;
+            grid.insertAdjacentHTML('beforeend', cardHtml);
+        });
+    }
+
+    // 3. Render Zone Side Panel
+    function renderZonesList() {
+        const zonesList = document.getElementById('zonesList');
+        zonesList.innerHTML = '';
+
+        let totalZones = 0;
+        camerasData.forEach(cam => {
+            const state = cameraStates[cam.id];
+            const zones = state ? state.zones : prepareZones(cam.zones);
+
+            zones.forEach(zone => {
+                totalZones++;
+                const invalid = zone.poly.length < 3
+                    ? '<span class="badge bg-danger ms-1">invalid points</span>'
+                    : '';
+                zonesList.insertAdjacentHTML('beforeend', `
+                    <div class="list-group-item bg-dark text-white border-secondary p-2 mb-1 rounded">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <strong>${escapeHtml(zone.name || 'Zone')}${invalid}</strong>
+                            <small class="text-muted">${escapeHtml(cam.name || cam.id)}</small>
+                        </div>
+                    </div>
+                `);
+            });
+        });
+
+        if (totalZones === 0) {
+            zonesList.innerHTML = `<div class="text-muted small">No active zones configured.</div>`;
+        }
+    }
+
+    // 4. Start Cameras & Loops
+    function startAllCameras() {
+        camerasData.forEach(cam => {
+            if (cam.type === 'webcam' && !activeStreams[cam.id]) {
+                startWebcamStream(cam.id);
+            }
+        });
+
+        // Canvas overlay loop sirf ek baar start hoga (dobara click pe duplicate nahi banega)
+        if (!renderLoopRunning) {
+            renderLoopRunning = true;
+            requestAnimationFrame(renderLoop);
+        }
+    }
+
+    function startWebcamStream(camId) {
+        const videoElement = document.getElementById(`video_${camId}`);
+        if (!videoElement || startingStreams[camId]) return;
+
+        startingStreams[camId] = true;
+        setStatus('Starting camera...');
+
+        navigator.mediaDevices.getUserMedia({ video: { width: { ideal: 640 }, height: { ideal: 480 } } })
+            .then(stream => {
+                activeStreams[camId] = stream;
+                videoElement.srcObject = stream;
+                videoElement.play().catch(() => {});
+
+                setStatus('Running');
+                // Start Socket Capture Loop for this camera
+                scheduleCapture(camId, 0);
+            })
+            .catch(err => {
+                console.error(`Camera ${camId} error:`, err);
+                setStatus(`Camera error - ${err.message || err}`);
+            })
+            .finally(() => {
+                delete startingStreams[camId];
+            });
+    }
+
+    // Loop 1: Frame Capture & Socket Communication
+    function scheduleCapture(camId, delay) {
+        clearTimeout(captureTimers[camId]);
+        captureTimers[camId] = setTimeout(() => captureLoop(camId), delay);
+    }
+
+    function captureLoop(camId) {
+        const stream = activeStreams[camId];
+        const state = cameraStates[camId];
+        const video = document.getElementById(`video_${camId}`);
+
+        // Camera stop ho chuka hai to loop band
+        if (!stream || !state || !video) return;
+
+        // Video ready nahi ya pichla frame abhi process ho raha hai -> thodi der baad dobara dekho
+        if (state.isProcessing || video.readyState < 2 || !video.videoWidth) {
+            scheduleCapture(camId, 100);
+            return;
+        }
+
+        state.isProcessing = true;
+
+        try {
+            const canvas = state.captureCanvas;
+            if (canvas.width !== video.videoWidth) canvas.width = video.videoWidth;
+            if (canvas.height !== video.videoHeight) canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0);
+
+            const frameBase64 = canvas.toDataURL('image/jpeg', JPEG_QUALITY);
+
+            // timeout ke saath emit: ack na aaye to isProcessing hamesha ke liye true nahi rahega
+            webcamSocket.timeout(ACK_TIMEOUT_MS).emit('frame', {
+                camera_id: camId,
+                image: frameBase64,
+                db_zones: buildDbZones(state)
+            }, (err, response) => {
+                state.isProcessing = false;
+
+                if (err) {
+                    console.warn(`Frame ack timeout (${camId})`);
+                } else if (response && response.ok) {
+                    if (Array.isArray(response.faces)) {
+                        state.currentFaces = response.faces
+                            .filter(f => f.box || f.bbox)
+                            .map(f => ({
+                                employee_id: f.emp_id != null ? f.emp_id : (f.id != null ? f.id : null),
+                                name: f.label || f.name || 'Unknown',
+                                bbox: f.box || f.bbox || [],
+                                score: f.sim != null ? f.sim : (f.score || f.confidence || 0),
+                                kind: f.kind || ''
+                            }));
+                        state.lastDetectionTime = Date.now();
+                    }
+                } else {
+                    console.warn(`Frame error (${camId}):`, response && response.error);
+                }
+
+                scheduleCapture(camId, FRAME_INTERVAL_MS);
+            });
+        } catch (err) {
+            console.error(`Capture error (${camId}):`, err);
+            state.isProcessing = false;
+            scheduleCapture(camId, 500);
+        }
+    }
+
+    // Loop 2: Master Canvas Rendering Loop (Draw Faces + Polygon Zones)
+    function renderLoop() {
+        camerasData.forEach(cam => {
+            const canvas = document.getElementById(`canvas_${cam.id}`);
+            const video = document.getElementById(`video_${cam.id}`) || document.getElementById(`img_${cam.id}`);
+            const state = cameraStates[cam.id];
+
+            if (!canvas || !video || !state) return;
+
+            // Sync canvas dimensions
+            const displayW = video.clientWidth || 640;
+            const displayH = video.clientHeight || 480;
+            if (canvas.width !== displayW || canvas.height !== displayH) {
+                canvas.width = displayW;
+                canvas.height = displayH;
+            }
+
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // CCTV mein backend jis frame pe detect karta hai uski size (state.srcW/H) use hoti hai
+            const srcW = state.srcW || video.videoWidth || video.naturalWidth || 640;
+            const srcH = state.srcH || video.videoHeight || video.naturalHeight || 480;
+            const fit = getCoverFit(canvas.width, canvas.height, srcW, srcH);
+            const mapX = x => x * fit.scale + fit.offX;
+            const mapY = y => y * fit.scale + fit.offY;
+
+            // A. Draw Polygon Zones
+            state.zones.forEach(zone => {
+                const polygon = zone.poly;
+                if (polygon.length < 3) return;
+
+                ctx.beginPath();
+                ctx.moveTo(mapX(polygon[0][0]), mapY(polygon[0][1]));
+                for (let i = 1; i < polygon.length; i++) {
+                    ctx.lineTo(mapX(polygon[i][0]), mapY(polygon[i][1]));
+                }
+                ctx.closePath();
+
+                // Fill zone with semi-transparent color
+                ctx.fillStyle = zone.color || 'rgba(0, 153, 255, 0.2)';
+                ctx.fill();
+
+                // Draw zone border
+                ctx.strokeStyle = zone.borderColor || '#0099ff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Zone Label Text (sabse upar wale point ke paas)
+                if (zone.name) {
+                    const anchor = polygon.reduce((a, p) => (p[1] < a[1] ? p : a), polygon[0]);
+                    ctx.font = 'bold 12px Segoe UI, Arial';
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillText(zone.name, mapX(anchor[0]) + 5, mapY(anchor[1]) + 15);
+                }
+            });
+
+            // B. Draw Face Bounding Boxes
+            if (Date.now() - state.lastDetectionTime > 1000) {
+                state.currentFaces = [];
+            }
+
+            state.currentFaces.forEach(face => {
+                const bbox = face.bbox;
+                if (!Array.isArray(bbox) || bbox.length < 4) return;
+
+                const x = mapX(bbox[0]);
+                const y = mapY(bbox[1]);
+                const w = (bbox[2] - bbox[0]) * fit.scale;
+                const h = (bbox[3] - bbox[1]) * fit.scale;
+
+                const kind = face.kind ||
+                    (String(face.name).toLowerCase().includes('unknown') ? 'unknown' : 'known');
+
+                let boxColor = '#00ff7f';
+                let labelText;
+                if (kind === 'unknown') {
+                    boxColor = '#ff3333';
+                    labelText = 'Unknown';
+                } else if (kind === 'uncertain') {
+                    boxColor = '#ffb300';
+                    labelText = 'Checking...';
+                } else {
+                    const confidence = Math.round((face.score || 0) * 100);
+                    labelText = `${face.name} (${confidence}%)`;
+                }
+
+                // Draw Box
+                ctx.strokeStyle = boxColor;
+                ctx.lineWidth = 3;
+                ctx.strokeRect(x, y, w, h);
+
+                // Face center dot: yehi point backend zone check ke liye use karta hai
+                ctx.fillStyle = boxColor;
+                ctx.beginPath();
+                ctx.arc(mapX((bbox[0] + bbox[2]) / 2), mapY((bbox[1] + bbox[3]) / 2), 4, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Draw Tag Label
+                ctx.font = 'bold 13px Segoe UI, Arial';
+                const textWidth = ctx.measureText(labelText).width;
+                const labelY = y > 22 ? y - 22 : y;
+
+                ctx.fillStyle = boxColor;
+                ctx.fillRect(x, labelY, textWidth + 10, 20);
+
+                ctx.fillStyle = '#ffffff';
+                ctx.fillText(labelText, x + 5, labelY + 14);
+            });
+        });
+
+        requestAnimationFrame(renderLoop);
+    }
+
+    function stopAllCameras() {
+        Object.keys(activeStreams).forEach(camId => {
+            clearTimeout(captureTimers[camId]);
+
+            if (activeStreams[camId]) {
+                activeStreams[camId].getTracks().forEach(track => track.stop());
+                delete activeStreams[camId];
+            }
+
+            const video = document.getElementById(`video_${camId}`);
+            if (video) video.srcObject = null;
+
+            const state = cameraStates[camId];
+            if (state) {
+                state.isProcessing = false;
+                state.currentFaces = [];
+            }
+        });
+        setStatus('Stopped');
+    }
+
+    webcamSocket.on('new_attendance_event', (data) => {
+        const eventsDiv = document.getElementById('recentEvents');
+        const eventItem = `<div class="p-1 border-bottom border-secondary">
+            <span class="badge ${data.event_type === 'CHECK-IN' ? 'bg-success' : 'bg-warning'} me-1">${escapeHtml(data.event_type)}</span>
+            <strong>${escapeHtml(data.employee_name)}</strong> - ${escapeHtml(data.time)}
+        </div>`;
+
+        if (!hasEvents) {
+            eventsDiv.innerHTML = eventItem;
+            hasEvents = true;
+        } else {
+            eventsDiv.insertAdjacentHTML('afterbegin', eventItem);
+            while (eventsDiv.children.length > MAX_EVENTS) {
+                eventsDiv.removeChild(eventsDiv.lastElementChild);
+            }
+        }
+    });
+
+    window.onload = async () => {
+        // Pehle grid render hone do, phir cameras start karo (warna video element nahi milta)
+        await loadCamerasAndZones();
+        startAllCameras();
+    };
 </script>
 {% endblock %}

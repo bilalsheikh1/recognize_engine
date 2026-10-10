@@ -63,3 +63,735 @@
 2026-09-30 16:51:05,759 | INFO    | register | [register] Registered: rehana (343) with 6 face samples (id=5)
 2026-09-30 16:51:17,004 | INFO    | attendance | [webcam-1] CHECK_IN: rehana (343) via Reception Webcam, sim=0.52
 2026-09-30 16:54:26,837 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0023 on Reception Webcam
+2026-10-03 16:12:55,987 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-03 16:12:56,002 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-03 16:15:11,980 | INFO    | system | [zones] Zones configuration updated successfully
+2026-10-03 16:15:18,252 | INFO    | system | [zones] Zones configuration updated successfully
+2026-10-03 16:15:27,916 | INFO    | attendance | [webcam-1] CHECK_IN: Muhammad Bilal (101) via Reception Webcam, sim=0.54
+2026-10-03 16:31:34,797 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-03 16:31:34,807 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-03 16:39:56,037 | INFO    | system | [zones] Zones configuration updated successfully
+2026-10-03 16:45:49,245 | INFO    | attendance | [webcam-1] CHECK_OUT: Muhammad Bilal (101) via Main Camera, sim=0.65
+2026-10-03 17:01:04,614 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-03 17:01:04,624 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-03 17:01:54,059 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-03 17:01:54,068 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-03 17:11:59,991 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-03 17:12:00,000 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-03 17:16:24,186 | INFO    | attendance | [webcam-1] CHECK_OUT: Muhammad Bilal (101) via Main Camera, sim=0.75
+2026-10-03 17:17:51,193 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0024 on Main Camera
+2026-10-03 17:27:42,457 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0025 on Main Camera
+2026-10-03 17:27:42,966 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0026 on Main Camera
+2026-10-03 17:30:58,225 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0027 on Main Camera
+2026-10-03 17:32:03,002 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0028 on Main Camera
+2026-10-03 17:33:04,218 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0029 on Main Camera
+2026-10-03 17:34:35,685 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0030 on Main Camera
+2026-10-03 17:34:48,152 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0031 on Main Camera
+2026-10-04 15:21:11,657 | INFO    | attendance | [webcam-1] CHECK_IN: Muhammad Bilal (101) via Main Camera, sim=0.65
+2026-10-04 15:54:56,425 | INFO    | system | [zones] Zones configuration updated successfully
+2026-10-04 16:28:48,751 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 16:28:48,762 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 16:34:23,743 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 16:34:23,753 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 16:39:25,290 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 16:39:25,300 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 16:45:55,935 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 16:45:55,948 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 16:49:20,795 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 16:49:20,805 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 16:49:23,623 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 16:49:23,635 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 16:49:23,648 | WARNING | werkzeug |  * Debugger is active!
+2026-10-04 16:57:05,368 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 16:57:05,380 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 16:57:08,503 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 16:57:08,517 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 16:57:08,532 | WARNING | werkzeug |  * Debugger is active!
+2026-10-04 16:59:45,950 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 16:59:45,962 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 16:59:49,870 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 16:59:49,883 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 16:59:49,895 | WARNING | werkzeug |  * Debugger is active!
+2026-10-04 17:19:24,592 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 17:19:24,601 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 17:19:27,597 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 17:19:27,608 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 17:19:27,620 | WARNING | werkzeug |  * Debugger is active!
+2026-10-04 17:22:03,231 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 17:22:03,243 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 17:22:03,253 | WARNING | werkzeug |  * Debugger is active!
+2026-10-04 17:22:19,291 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 17:22:19,300 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 17:22:19,314 | WARNING | werkzeug |  * Debugger is active!
+2026-10-04 17:36:16,738 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 17:36:16,747 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 17:36:19,455 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 17:36:19,467 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 17:36:19,475 | WARNING | werkzeug |  * Debugger is active!
+2026-10-04 17:36:58,010 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 17:36:58,021 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 17:36:58,030 | WARNING | werkzeug |  * Debugger is active!
+2026-10-04 17:37:17,214 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 17:37:17,227 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 17:37:17,236 | WARNING | werkzeug |  * Debugger is active!
+2026-10-04 17:38:20,559 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 17:38:20,574 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 17:38:20,583 | WARNING | werkzeug |  * Debugger is active!
+2026-10-04 17:38:25,311 | INFO    | attendance | [webcam-1] CHECK_OUT: Muhammad Bilal (101) via Main Camera, sim=0.59
+2026-10-04 17:38:26,805 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0032 on Main Camera
+2026-10-04 17:38:35,238 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0033 on Main Camera
+2026-10-04 17:38:37,860 | WARNING | unknown | [webcam-1] UNK-0030 dobara aaya (visit #2) on Main Camera
+2026-10-04 17:38:38,343 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0034 on Main Camera
+2026-10-04 17:39:21,674 | INFO    | register | [register] Registered: abubakar (858) with 6 face samples (id=6)
+2026-10-04 17:39:29,561 | INFO    | attendance | [webcam-1] CHECK_IN: abubakar (858) via Main Camera, sim=0.58
+2026-10-04 17:39:33,126 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0035 on Main Camera
+2026-10-04 17:39:34,963 | WARNING | unknown | [webcam-1] UNK-0032 dobara aaya (visit #2) on Main Camera
+2026-10-04 17:40:04,065 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0036 on Main Camera
+2026-10-04 17:41:15,835 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0037 on Main Camera
+2026-10-04 17:42:04,279 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0038 on Main Camera
+2026-10-04 17:42:23,375 | WARNING | unknown | [webcam-1] UNK-0027 dobara aaya (visit #2) on Main Camera
+2026-10-04 17:51:59,236 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0039 on Main Camera
+2026-10-04 17:55:00,464 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 17:55:00,472 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 17:55:00,482 | WARNING | werkzeug |  * Debugger is active!
+2026-10-04 18:01:06,269 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 18:01:06,282 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 18:01:09,152 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 18:01:09,164 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 18:01:09,173 | WARNING | werkzeug |  * Debugger is active!
+2026-10-04 18:01:38,105 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 18:01:38,120 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 18:01:38,128 | WARNING | werkzeug |  * Debugger is active!
+2026-10-04 18:03:23,481 | INFO    | system | [zones] Zones configuration updated successfully
+2026-10-04 18:05:41,396 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 18:05:41,407 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 18:05:41,416 | WARNING | werkzeug |  * Debugger is active!
+2026-10-04 18:06:44,391 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 18:06:44,402 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 18:06:44,414 | WARNING | werkzeug |  * Debugger is active!
+2026-10-04 18:33:48,614 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 18:33:48,629 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 18:33:51,609 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 18:33:51,621 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 18:33:51,633 | WARNING | werkzeug |  * Debugger is active!
+2026-10-04 18:34:06,247 | ERROR   | system | [zones] Zone save error: 'coordinates' is an invalid keyword argument for Zone
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/zones/zone_controller.py", line 153, in save_zones
+    new_zone = Zone(camera_id=camera_id, coordinates=camera_zones)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 4, in __init__
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/orm/state.py", line 596, in _initialize_instance
+    with util.safe_reraise():
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/util/langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/orm/state.py", line 594, in _initialize_instance
+    manager.original_init(*mixed[1:], **kwargs)
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/orm/decl_base.py", line 2193, in _declarative_constructor
+    raise TypeError(
+TypeError: 'coordinates' is an invalid keyword argument for Zone
+
+2026-10-04 18:49:34,106 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 18:49:34,117 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 18:49:34,125 | WARNING | werkzeug |  * Debugger is active!
+2026-10-04 18:49:44,854 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 18:49:44,865 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 18:49:44,874 | WARNING | werkzeug |  * Debugger is active!
+2026-10-04 18:50:14,191 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 18:50:14,201 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 18:50:14,209 | WARNING | werkzeug |  * Debugger is active!
+2026-10-04 18:50:23,491 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 18:50:23,504 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 18:50:23,514 | WARNING | werkzeug |  * Debugger is active!
+2026-10-04 18:50:43,568 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 18:50:43,580 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 18:50:43,590 | WARNING | werkzeug |  * Debugger is active!
+2026-10-04 18:50:51,766 | ERROR   | system | [zones] Zone save error: 'coordinates' is an invalid keyword argument for Zone
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/zones/zone_controller.py", line 154, in save_zones
+    new_zone = Zone(camera_id=camera_id, coordinates=zones_json_str)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 4, in __init__
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/orm/state.py", line 596, in _initialize_instance
+    with util.safe_reraise():
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/util/langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/orm/state.py", line 594, in _initialize_instance
+    manager.original_init(*mixed[1:], **kwargs)
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/orm/decl_base.py", line 2193, in _declarative_constructor
+    raise TypeError(
+TypeError: 'coordinates' is an invalid keyword argument for Zone
+
+2026-10-04 19:23:28,402 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 19:23:28,414 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 19:23:28,422 | WARNING | werkzeug |  * Debugger is active!
+2026-10-04 19:23:34,435 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 19:23:34,445 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 19:23:34,454 | WARNING | werkzeug |  * Debugger is active!
+2026-10-04 19:23:48,942 | ERROR   | system | [zones] Zone save error: (raised as a result of Query-invoked autoflush; consider using a session.no_autoflush block if this flush is occurring prematurely)
+(pymysql.err.IntegrityError) (1452, 'Cannot add or update a child row: a foreign key constraint fails (`face_attendance`.`zones`, CONSTRAINT `zones_ibfk_1` FOREIGN KEY (`camera_id`) REFERENCES `cameras` (`id`))')
+[SQL: INSERT INTO zones (camera_id, zone_key, name, type, polygon, created_at) VALUES (%(camera_id)s, %(zone_key)s, %(name)s, %(type)s, %(polygon)s, %(created_at)s)]
+[parameters: {'camera_id': 'webcam-1', 'zone_key': 'door_zone', 'name': 'Door Zone', 'type': 'checkout', 'polygon': '[[103, 112], [232, 115], [209, 633], [95, 629]]', 'created_at': datetime.datetime(2026, 10, 4, 14, 23, 48, 922561)}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/pymysql/cursors.py", line 153, in execute
+    result = self._query(query)
+             ^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/pymysql/cursors.py", line 322, in _query
+    conn.query(q)
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/pymysql/connections.py", line 563, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/pymysql/connections.py", line 825, in _read_query_result
+    result.read()
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/pymysql/connections.py", line 1199, in read
+    first_packet = self.connection._read_packet()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/pymysql/connections.py", line 775, in _read_packet
+    packet.raise_for_error()
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/pymysql/protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/pymysql/err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.IntegrityError: (1452, 'Cannot add or update a child row: a foreign key constraint fails (`face_attendance`.`zones`, CONSTRAINT `zones_ibfk_1` FOREIGN KEY (`camera_id`) REFERENCES `cameras` (`id`))')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/zones/zone_controller.py", line 170, in save_zones
+    ).first()
+      ^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/orm/query.py", line 2766, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/orm/query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 2373, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 2250, in _execute_internal
+    ) = compile_state_cls.orm_pre_session_exec(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/orm/context.py", line 577, in orm_pre_session_exec
+    session._autoflush()
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 3073, in _autoflush
+    raise e.with_traceback(sys.exc_info()[2])
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 3062, in _autoflush
+    self.flush()
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 4353, in flush
+    self._flush(objects)
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 4488, in _flush
+    with util.safe_reraise():
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/util/langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 4449, in _flush
+    flush_context.execute()
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/orm/unitofwork.py", line 465, in execute
+    rec.execute(self)
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/orm/unitofwork.py", line 641, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/orm/persistence.py", line 94, in save_obj
+    _emit_insert_statements(
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/orm/persistence.py", line 1234, in _emit_insert_statements
+    result = connection.execute(
+             ^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1421, in execute
+    return meth(
+           ^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/sql/elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1643, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 2365, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/pymysql/cursors.py", line 153, in execute
+    result = self._query(query)
+             ^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/pymysql/cursors.py", line 322, in _query
+    conn.query(q)
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/pymysql/connections.py", line 563, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/pymysql/connections.py", line 825, in _read_query_result
+    result.read()
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/pymysql/connections.py", line 1199, in read
+    first_packet = self.connection._read_packet()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/pymysql/connections.py", line 775, in _read_packet
+    packet.raise_for_error()
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/pymysql/protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/.venv/lib/python3.11/site-packages/pymysql/err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+sqlalchemy.exc.IntegrityError: (raised as a result of Query-invoked autoflush; consider using a session.no_autoflush block if this flush is occurring prematurely)
+(pymysql.err.IntegrityError) (1452, 'Cannot add or update a child row: a foreign key constraint fails (`face_attendance`.`zones`, CONSTRAINT `zones_ibfk_1` FOREIGN KEY (`camera_id`) REFERENCES `cameras` (`id`))')
+[SQL: INSERT INTO zones (camera_id, zone_key, name, type, polygon, created_at) VALUES (%(camera_id)s, %(zone_key)s, %(name)s, %(type)s, %(polygon)s, %(created_at)s)]
+[parameters: {'camera_id': 'webcam-1', 'zone_key': 'door_zone', 'name': 'Door Zone', 'type': 'checkout', 'polygon': '[[103, 112], [232, 115], [209, 633], [95, 629]]', 'created_at': datetime.datetime(2026, 10, 4, 14, 23, 48, 922561)}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+
+2026-10-04 19:24:39,270 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 19:24:39,280 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 19:24:39,290 | WARNING | werkzeug |  * Debugger is active!
+2026-10-04 19:24:40,375 | ERROR   | system | [zones] Zone save error: name 'Camera' is not defined
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/zones/zone_controller.py", line 165, in save_zones
+    cam_record = Camera.query.filter_by(id=cam_id_str).first()
+                 ^^^^^^
+NameError: name 'Camera' is not defined
+
+2026-10-04 19:25:10,274 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-04 19:25:10,285 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-04 19:25:10,293 | WARNING | werkzeug |  * Debugger is active!
+2026-10-04 19:25:10,480 | INFO    | system | [zones] Zones successfully updated in DB
+2026-10-06 00:47:18,288 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-06 00:47:18,301 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-06 00:47:21,791 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-06 00:47:21,809 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-06 00:47:21,824 | WARNING | werkzeug |  * Debugger is active!
+2026-10-06 00:48:10,414 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-06 00:48:10,427 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-06 00:48:10,440 | WARNING | werkzeug |  * Debugger is active!
+2026-10-06 00:49:43,219 | INFO    | attendance | [webcam-1] CHECK_IN: Muhammad Bilal (101) via Main Camera, sim=0.51
+2026-10-06 00:49:56,611 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0040 on Main Camera
+2026-10-06 00:52:46,502 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0041 on Main Camera
+2026-10-06 01:01:25,064 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-06 01:01:25,077 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-06 01:01:25,093 | WARNING | werkzeug |  * Debugger is active!
+2026-10-06 01:13:22,792 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-06 01:13:22,802 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-06 01:13:22,810 | WARNING | werkzeug |  * Debugger is active!
+2026-10-06 01:13:32,446 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-06 01:13:32,462 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-06 01:13:32,471 | WARNING | werkzeug |  * Debugger is active!
+2026-10-06 01:18:56,758 | ERROR   | system | [zones] Zone save error: 'list' object has no attribute 'items'
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/zones/zone_controller.py", line 179, in save_zones
+    for zone_key, points in camera_zones.items():
+                            ^^^^^^^^^^^^^^^^^^
+AttributeError: 'list' object has no attribute 'items'
+
+2026-10-06 01:20:38,003 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-06 01:20:38,013 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-06 01:20:38,022 | WARNING | werkzeug |  * Debugger is active!
+2026-10-06 01:21:00,189 | INFO    | system | [zones] Zones successfully updated in DB
+2026-10-06 01:21:50,387 | INFO    | attendance | [webcam-1] CHECK_OUT: Muhammad Bilal (101) via Main Camera, sim=0.53
+2026-10-06 01:24:07,118 | INFO    | system | [zones] Zones successfully updated in DB
+2026-10-06 01:30:21,977 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-06 01:30:21,988 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-06 01:30:24,849 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-06 01:30:24,859 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-06 01:30:24,867 | WARNING | werkzeug |  * Debugger is active!
+2026-10-06 01:47:49,162 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0042 on Main Camera
+2026-10-06 01:48:31,564 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0043 on Main Camera
+2026-10-06 01:49:55,593 | WARNING | unknown | [webcam-1] UNK-0043 dobara aaya (visit #2) on Main Camera
+2026-10-06 01:50:10,304 | WARNING | unknown | [webcam-1] UNK-0007 dobara aaya (visit #2) on Main Camera
+2026-10-06 01:52:39,883 | INFO    | attendance | [webcam-1] CHECK_OUT: Muhammad Bilal (101) via Main Camera, sim=0.53
+2026-10-06 01:56:55,561 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0044 on Main Camera
+2026-10-06 02:24:14,245 | INFO    | system | [zones] Zones successfully updated in DB
+2026-10-06 02:24:31,330 | INFO    | system | [zones] Zones successfully updated in DB
+2026-10-06 02:24:48,048 | INFO    | attendance | [webcam-1] CHECK_OUT: Muhammad Bilal (101) via Main Camera, sim=0.53
+2026-10-06 02:39:07,166 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-06 02:39:07,177 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-06 02:39:09,983 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-06 02:39:09,994 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-06 02:39:10,002 | WARNING | werkzeug |  * Debugger is active!
+2026-10-06 02:41:17,746 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-06 02:41:17,757 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-06 02:41:17,766 | WARNING | werkzeug |  * Debugger is active!
+2026-10-06 02:48:59,902 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-06 02:48:59,915 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-06 02:49:02,849 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-06 02:49:02,859 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-06 02:49:02,868 | WARNING | werkzeug |  * Debugger is active!
+2026-10-06 02:52:05,707 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0045 on Main Camera
+2026-10-06 02:55:17,737 | INFO    | attendance | [webcam-1] CHECK_OUT: Muhammad Bilal (101) via Main Camera, sim=0.81
+2026-10-06 02:55:52,316 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-06 02:55:52,331 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-06 02:55:52,347 | WARNING | werkzeug |  * Debugger is active!
+2026-10-06 02:58:38,854 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0046 on Main Camera
+2026-10-06 02:59:31,292 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-06 02:59:31,302 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-06 02:59:31,312 | WARNING | werkzeug |  * Debugger is active!
+2026-10-06 03:01:35,722 | INFO    | attendance | [webcam-1] CHECK_IN: Muhammad Bilal (101) via Main Camera, sim=0.82
+2026-10-08 02:25:33,776 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-08 02:25:33,789 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-08 02:25:37,356 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-08 02:25:37,365 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-08 02:25:37,377 | WARNING | werkzeug |  * Debugger is active!
+2026-10-08 02:26:05,976 | INFO    | attendance | [webcam-1] CHECK_IN: Muhammad Bilal (101) via Main Camera, sim=0.78
+2026-10-08 02:29:44,777 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-08 02:29:44,786 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-08 02:29:48,606 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-08 02:29:48,616 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-08 02:29:48,623 | WARNING | werkzeug |  * Debugger is active!
+2026-10-08 02:29:52,003 | ERROR   | system | [webcam-1] Webcam frame error: 'AttendanceService' object has no attribute '_on_known'
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/socket/socket_controller.py", line 31, in on_frame
+    faces = state.service.process(frame, self.webcam_config["id"], self.webcam_config["name"])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/service/attendance_service.py", line 67, in process
+    status = self._on_known(
+             ^^^^^^^^^^^^^^
+AttributeError: 'AttendanceService' object has no attribute '_on_known'
+
+2026-10-08 02:30:02,239 | ERROR   | system | [webcam-1] Webcam frame error: 'AttendanceService' object has no attribute '_on_unknown'
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/socket/socket_controller.py", line 31, in on_frame
+    faces = state.service.process(frame, self.webcam_config["id"], self.webcam_config["name"])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/service/attendance_service.py", line 88, in process
+    label, count = self._on_unknown(
+                   ^^^^^^^^^^^^^^^^
+AttributeError: 'AttendanceService' object has no attribute '_on_unknown'
+
+2026-10-08 02:30:22,261 | ERROR   | system | [webcam-1] Webcam frame error: 'AttendanceService' object has no attribute '_on_known'
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/socket/socket_controller.py", line 31, in on_frame
+    faces = state.service.process(frame, self.webcam_config["id"], self.webcam_config["name"])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/service/attendance_service.py", line 67, in process
+    status = self._on_known(
+             ^^^^^^^^^^^^^^
+AttributeError: 'AttendanceService' object has no attribute '_on_known'
+
+2026-10-08 02:30:52,295 | ERROR   | system | [webcam-1] Webcam frame error: 'AttendanceService' object has no attribute '_on_known'
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/socket/socket_controller.py", line 31, in on_frame
+    faces = state.service.process(frame, self.webcam_config["id"], self.webcam_config["name"])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/service/attendance_service.py", line 67, in process
+    status = self._on_known(
+             ^^^^^^^^^^^^^^
+AttributeError: 'AttendanceService' object has no attribute '_on_known'
+
+2026-10-08 02:31:20,178 | ERROR   | system | [webcam-1] Webcam frame error: 'AttendanceService' object has no attribute '_on_unknown'
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/socket/socket_controller.py", line 31, in on_frame
+    faces = state.service.process(frame, self.webcam_config["id"], self.webcam_config["name"])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/service/attendance_service.py", line 88, in process
+    label, count = self._on_unknown(
+                   ^^^^^^^^^^^^^^^^
+AttributeError: 'AttendanceService' object has no attribute '_on_unknown'
+
+2026-10-08 02:31:23,175 | ERROR   | system | [webcam-1] Webcam frame error: 'AttendanceService' object has no attribute '_on_known'
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/socket/socket_controller.py", line 31, in on_frame
+    faces = state.service.process(frame, self.webcam_config["id"], self.webcam_config["name"])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/service/attendance_service.py", line 67, in process
+    status = self._on_known(
+             ^^^^^^^^^^^^^^
+AttributeError: 'AttendanceService' object has no attribute '_on_known'
+
+2026-10-08 02:32:14,457 | ERROR   | system | [webcam-1] Webcam frame error: 'AttendanceService' object has no attribute '_on_unknown'
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/socket/socket_controller.py", line 31, in on_frame
+    faces = state.service.process(frame, self.webcam_config["id"], self.webcam_config["name"])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/service/attendance_service.py", line 88, in process
+    label, count = self._on_unknown(
+                   ^^^^^^^^^^^^^^^^
+AttributeError: 'AttendanceService' object has no attribute '_on_unknown'
+
+2026-10-08 02:32:15,197 | ERROR   | system | [webcam-1] Webcam frame error: 'AttendanceService' object has no attribute '_on_known'
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/socket/socket_controller.py", line 31, in on_frame
+    faces = state.service.process(frame, self.webcam_config["id"], self.webcam_config["name"])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/service/attendance_service.py", line 67, in process
+    status = self._on_known(
+             ^^^^^^^^^^^^^^
+AttributeError: 'AttendanceService' object has no attribute '_on_known'
+
+2026-10-08 02:32:46,460 | ERROR   | system | [webcam-1] Webcam frame error: 'AttendanceService' object has no attribute '_on_known'
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/socket/socket_controller.py", line 31, in on_frame
+    faces = state.service.process(frame, self.webcam_config["id"], self.webcam_config["name"])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/service/attendance_service.py", line 67, in process
+    status = self._on_known(
+             ^^^^^^^^^^^^^^
+AttributeError: 'AttendanceService' object has no attribute '_on_known'
+
+2026-10-08 02:32:51,191 | ERROR   | system | [webcam-1] Webcam frame error: 'AttendanceService' object has no attribute '_on_unknown'
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/socket/socket_controller.py", line 31, in on_frame
+    faces = state.service.process(frame, self.webcam_config["id"], self.webcam_config["name"])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/service/attendance_service.py", line 88, in process
+    label, count = self._on_unknown(
+                   ^^^^^^^^^^^^^^^^
+AttributeError: 'AttendanceService' object has no attribute '_on_unknown'
+
+2026-10-08 02:33:22,213 | ERROR   | system | [webcam-1] Webcam frame error: 'AttendanceService' object has no attribute '_on_unknown'
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/socket/socket_controller.py", line 31, in on_frame
+    faces = state.service.process(frame, self.webcam_config["id"], self.webcam_config["name"])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/service/attendance_service.py", line 88, in process
+    label, count = self._on_unknown(
+                   ^^^^^^^^^^^^^^^^
+AttributeError: 'AttendanceService' object has no attribute '_on_unknown'
+
+2026-10-08 02:33:26,226 | ERROR   | system | [webcam-1] Webcam frame error: 'AttendanceService' object has no attribute '_on_known'
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/socket/socket_controller.py", line 31, in on_frame
+    faces = state.service.process(frame, self.webcam_config["id"], self.webcam_config["name"])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/service/attendance_service.py", line 67, in process
+    status = self._on_known(
+             ^^^^^^^^^^^^^^
+AttributeError: 'AttendanceService' object has no attribute '_on_known'
+
+2026-10-08 02:33:56,236 | ERROR   | system | [webcam-1] Webcam frame error: 'AttendanceService' object has no attribute '_on_known'
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/socket/socket_controller.py", line 31, in on_frame
+    faces = state.service.process(frame, self.webcam_config["id"], self.webcam_config["name"])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/service/attendance_service.py", line 67, in process
+    status = self._on_known(
+             ^^^^^^^^^^^^^^
+AttributeError: 'AttendanceService' object has no attribute '_on_known'
+
+2026-10-08 02:34:10,212 | ERROR   | system | [webcam-1] Webcam frame error: 'AttendanceService' object has no attribute '_on_unknown'
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/socket/socket_controller.py", line 31, in on_frame
+    faces = state.service.process(frame, self.webcam_config["id"], self.webcam_config["name"])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/service/attendance_service.py", line 88, in process
+    label, count = self._on_unknown(
+                   ^^^^^^^^^^^^^^^^
+AttributeError: 'AttendanceService' object has no attribute '_on_unknown'
+
+2026-10-08 02:34:27,203 | ERROR   | system | [webcam-1] Webcam frame error: 'AttendanceService' object has no attribute '_on_known'
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/socket/socket_controller.py", line 31, in on_frame
+    faces = state.service.process(frame, self.webcam_config["id"], self.webcam_config["name"])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/service/attendance_service.py", line 67, in process
+    status = self._on_known(
+             ^^^^^^^^^^^^^^
+AttributeError: 'AttendanceService' object has no attribute '_on_known'
+
+2026-10-08 02:34:55,409 | ERROR   | system | [webcam-1] Webcam frame error: 'AttendanceService' object has no attribute '_on_unknown'
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/socket/socket_controller.py", line 31, in on_frame
+    faces = state.service.process(frame, self.webcam_config["id"], self.webcam_config["name"])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/service/attendance_service.py", line 88, in process
+    label, count = self._on_unknown(
+                   ^^^^^^^^^^^^^^^^
+AttributeError: 'AttendanceService' object has no attribute '_on_unknown'
+
+2026-10-08 02:35:01,406 | ERROR   | system | [webcam-1] Webcam frame error: 'AttendanceService' object has no attribute '_on_known'
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/socket/socket_controller.py", line 31, in on_frame
+    faces = state.service.process(frame, self.webcam_config["id"], self.webcam_config["name"])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/service/attendance_service.py", line 67, in process
+    status = self._on_known(
+             ^^^^^^^^^^^^^^
+AttributeError: 'AttendanceService' object has no attribute '_on_known'
+
+2026-10-08 02:35:32,255 | ERROR   | system | [webcam-1] Webcam frame error: 'AttendanceService' object has no attribute '_on_known'
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/socket/socket_controller.py", line 31, in on_frame
+    faces = state.service.process(frame, self.webcam_config["id"], self.webcam_config["name"])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/service/attendance_service.py", line 67, in process
+    status = self._on_known(
+             ^^^^^^^^^^^^^^
+AttributeError: 'AttendanceService' object has no attribute '_on_known'
+
+2026-10-08 02:39:13,207 | ERROR   | system | [webcam-1] Webcam frame error: 'AttendanceService' object has no attribute '_on_known'
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/socket/socket_controller.py", line 31, in on_frame
+    faces = state.service.process(frame, self.webcam_config["id"], self.webcam_config["name"])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/service/attendance_service.py", line 67, in process
+    status = self._on_known(
+             ^^^^^^^^^^^^^^
+AttributeError: 'AttendanceService' object has no attribute '_on_known'
+
+2026-10-08 02:39:29,213 | ERROR   | system | [webcam-1] Webcam frame error: 'AttendanceService' object has no attribute '_on_unknown'
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/socket/socket_controller.py", line 31, in on_frame
+    faces = state.service.process(frame, self.webcam_config["id"], self.webcam_config["name"])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/service/attendance_service.py", line 88, in process
+    label, count = self._on_unknown(
+                   ^^^^^^^^^^^^^^^^
+AttributeError: 'AttendanceService' object has no attribute '_on_unknown'
+
+2026-10-08 02:39:43,248 | ERROR   | system | [webcam-1] Webcam frame error: 'AttendanceService' object has no attribute '_on_known'
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/socket/socket_controller.py", line 31, in on_frame
+    faces = state.service.process(frame, self.webcam_config["id"], self.webcam_config["name"])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/service/attendance_service.py", line 67, in process
+    status = self._on_known(
+             ^^^^^^^^^^^^^^
+AttributeError: 'AttendanceService' object has no attribute '_on_known'
+
+2026-10-08 02:40:03,227 | ERROR   | system | [webcam-1] Webcam frame error: 'AttendanceService' object has no attribute '_on_unknown'
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/socket/socket_controller.py", line 31, in on_frame
+    faces = state.service.process(frame, self.webcam_config["id"], self.webcam_config["name"])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/service/attendance_service.py", line 88, in process
+    label, count = self._on_unknown(
+                   ^^^^^^^^^^^^^^^^
+AttributeError: 'AttendanceService' object has no attribute '_on_unknown'
+
+2026-10-08 02:40:23,220 | ERROR   | system | [webcam-1] Webcam frame error: 'AttendanceService' object has no attribute '_on_known'
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/socket/socket_controller.py", line 31, in on_frame
+    faces = state.service.process(frame, self.webcam_config["id"], self.webcam_config["name"])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/service/attendance_service.py", line 67, in process
+    status = self._on_known(
+             ^^^^^^^^^^^^^^
+AttributeError: 'AttendanceService' object has no attribute '_on_known'
+
+2026-10-08 02:40:44,195 | ERROR   | system | [webcam-1] Webcam frame error: 'AttendanceService' object has no attribute '_on_unknown'
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/socket/socket_controller.py", line 31, in on_frame
+    faces = state.service.process(frame, self.webcam_config["id"], self.webcam_config["name"])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/service/attendance_service.py", line 88, in process
+    label, count = self._on_unknown(
+                   ^^^^^^^^^^^^^^^^
+AttributeError: 'AttendanceService' object has no attribute '_on_unknown'
+
+2026-10-08 02:40:54,230 | ERROR   | system | [webcam-1] Webcam frame error: 'AttendanceService' object has no attribute '_on_known'
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/socket/socket_controller.py", line 31, in on_frame
+    faces = state.service.process(frame, self.webcam_config["id"], self.webcam_config["name"])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/service/attendance_service.py", line 67, in process
+    status = self._on_known(
+             ^^^^^^^^^^^^^^
+AttributeError: 'AttendanceService' object has no attribute '_on_known'
+
+2026-10-08 02:41:16,201 | ERROR   | system | [webcam-1] Webcam frame error: 'AttendanceService' object has no attribute '_on_unknown'
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/socket/socket_controller.py", line 31, in on_frame
+    faces = state.service.process(frame, self.webcam_config["id"], self.webcam_config["name"])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/service/attendance_service.py", line 88, in process
+    label, count = self._on_unknown(
+                   ^^^^^^^^^^^^^^^^
+AttributeError: 'AttendanceService' object has no attribute '_on_unknown'
+
+2026-10-08 02:41:28,219 | ERROR   | system | [webcam-1] Webcam frame error: 'AttendanceService' object has no attribute '_on_known'
+Traceback (most recent call last):
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/controllers/socket/socket_controller.py", line 31, in on_frame
+    faces = state.service.process(frame, self.webcam_config["id"], self.webcam_config["name"])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/muhammadbilalsheikh/PycharmProjects/face_attendance (1)/face_attendance/service/attendance_service.py", line 67, in process
+    status = self._on_known(
+             ^^^^^^^^^^^^^^
+AttributeError: 'AttendanceService' object has no attribute '_on_known'
+
+2026-10-08 02:41:56,374 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-08 02:41:56,384 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-08 02:41:56,396 | WARNING | werkzeug |  * Debugger is active!
+2026-10-08 02:42:15,695 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-08 02:42:15,706 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-08 02:42:19,829 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-08 02:42:19,859 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-08 02:42:19,882 | WARNING | werkzeug |  * Debugger is active!
+2026-10-08 02:42:36,551 | WARNING | unknown | [webcam-1] UNK-0007 dobara aaya (visit #3) on Main Camera
+2026-10-08 02:42:46,284 | INFO    | attendance | [webcam-1] Zone Event CHECK_IN: Muhammad Bilal on camera webcam-1
+2026-10-08 02:42:50,572 | INFO    | attendance | [webcam-1] Zone Event CHECK_OUT: Muhammad Bilal on camera webcam-1
+2026-10-08 02:42:53,353 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0047 on Main Camera
+2026-10-08 02:42:56,087 | WARNING | unknown | [webcam-1] UNK-0046 dobara aaya (visit #2) on Main Camera
+2026-10-08 02:42:56,786 | INFO    | attendance | [webcam-1] Zone Event CHECK_IN: Muhammad Bilal on camera webcam-1
+2026-10-08 02:43:03,382 | INFO    | attendance | [webcam-1] Zone Event CHECK_OUT: Muhammad Bilal on camera webcam-1
+2026-10-08 02:43:17,703 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0048 on Main Camera
+2026-10-08 02:43:30,289 | INFO    | attendance | [webcam-1] Zone Event CHECK_OUT: Muhammad Bilal on camera webcam-1
+2026-10-08 02:43:51,263 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0049 on Main Camera
+2026-10-08 02:43:57,999 | WARNING | unknown | [webcam-1] Naya unknown face UNK-0050 on Main Camera
+2026-10-08 02:44:25,173 | INFO    | attendance | [webcam-1] Zone Event CHECK_IN: Muhammad Bilal on camera webcam-1
+2026-10-08 02:44:33,950 | INFO    | attendance | [webcam-1] Zone Event CHECK_OUT: Muhammad Bilal on camera webcam-1
+2026-10-08 02:45:38,009 | INFO    | system | [zones] Zones successfully updated in DB
+2026-10-08 02:45:49,079 | INFO    | attendance | [webcam-1] Zone Event CHECK_OUT: Muhammad Bilal on camera webcam-1
+2026-10-08 02:46:02,759 | INFO    | attendance | [webcam-1] Zone Event CHECK_OUT: Muhammad Bilal on camera webcam-1
+2026-10-08 02:46:51,553 | INFO    | system | [zones] Zones successfully updated in DB
+2026-10-08 02:47:00,835 | INFO    | attendance | [webcam-1] Zone Event CHECK_IN: Muhammad Bilal on camera webcam-1
+2026-10-08 02:47:05,925 | INFO    | attendance | [webcam-1] Zone Event CHECK_OUT: Muhammad Bilal on camera webcam-1
+2026-10-08 03:01:48,671 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-08 03:01:48,682 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-08 03:01:51,307 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-08 03:01:51,316 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-08 03:01:51,325 | WARNING | werkzeug |  * Debugger is active!
+2026-10-08 03:03:56,155 | INFO    | system | [camera-manager] Started 0 CCTV worker(s) (0 threads), 1 webcam socket source(s)
+2026-10-08 03:03:56,168 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-08 03:03:56,178 | WARNING | werkzeug |  * Debugger is active!
+2026-10-08 03:23:10,618 | INFO    | system | [camera-manager] Started 1 CCTV worker(s) (2 threads), 1 webcam socket source(s)
+2026-10-08 03:23:10,627 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-08 03:23:13,631 | INFO    | system | [camera-manager] Started 1 CCTV worker(s) (2 threads), 1 webcam socket source(s)
+2026-10-08 03:23:13,642 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-08 03:23:13,652 | WARNING | werkzeug |  * Debugger is active!
+2026-10-08 03:23:14,679 | INFO    | attendance | [webcam-1] CHECK_OUT: Muhammad Bilal (101) via Main Camera, sim=0.84
+2026-10-08 03:23:18,713 | INFO    | camera | [cctv1] cctv1 online
+2026-10-08 03:23:18,744 | ERROR   | camera | [cctv1] cctv1 offline: stream lost / frame nahi mila
+2026-10-08 03:23:19,468 | INFO    | camera | [cctv1] cctv1 online
+2026-10-08 03:23:21,338 | INFO    | attendance | [webcam-1] Zone Event CHECK_OUT: Muhammad Bilal on camera webcam-1
+2026-10-08 03:23:26,799 | INFO    | camera | [cctv1] cctv1 online
+2026-10-08 03:24:40,943 | INFO    | system | [zones] Zones successfully updated in DB
+2026-10-08 03:25:54,696 | INFO    | attendance | [webcam-1] Zone Event CHECK_OUT: Muhammad Bilal on camera webcam-1
+2026-10-08 14:45:59,060 | INFO    | system | [camera-manager] Started 1 CCTV worker(s) (2 threads), 1 webcam socket source(s)
+2026-10-08 14:45:59,069 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-08 14:46:01,871 | INFO    | system | [camera-manager] Started 1 CCTV worker(s) (2 threads), 1 webcam socket source(s)
+2026-10-08 14:46:01,894 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-08 14:46:01,906 | WARNING | werkzeug |  * Debugger is active!
+2026-10-08 14:46:02,138 | ERROR   | camera | [cctv1] cctv1 offline: stream open nahi hui
+2026-10-08 14:46:02,143 | ERROR   | camera | [cctv1] cctv1 offline: stream open nahi hui
+2026-10-08 14:46:19,600 | INFO    | attendance | [webcam-1] CHECK_OUT: Muhammad Bilal (101) via Main Camera, sim=0.55
+2026-10-08 18:30:57,866 | INFO    | system | [camera-manager] Started 1 CCTV worker(s) (2 threads), 1 webcam socket source(s)
+2026-10-08 18:30:57,880 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-08 18:31:00,951 | ERROR   | camera | [cctv1] cctv1 offline: stream open nahi hui
+2026-10-08 18:31:00,962 | INFO    | system | [camera-manager] Started 1 CCTV worker(s) (2 threads), 1 webcam socket source(s)
+2026-10-08 18:31:00,972 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-08 18:31:00,983 | WARNING | werkzeug |  * Debugger is active!
+2026-10-08 18:31:04,024 | ERROR   | camera | [cctv1] cctv1 offline: stream open nahi hui
+2026-10-08 18:42:05,401 | INFO    | system | [camera-manager] Started 1 CCTV worker(s) (2 threads), 1 webcam socket source(s)
+2026-10-08 18:42:05,410 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-08 18:42:08,473 | ERROR   | camera | [cctv1] cctv1 offline: stream open nahi hui
+2026-10-08 18:42:09,801 | INFO    | system | [camera-manager] Started 1 CCTV worker(s) (2 threads), 1 webcam socket source(s)
+2026-10-08 18:42:09,816 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-08 18:42:09,831 | WARNING | werkzeug |  * Debugger is active!
+2026-10-08 18:42:12,568 | ERROR   | camera | [cctv1] cctv1 offline: stream open nahi hui
+2026-10-08 18:44:25,800 | INFO    | attendance | [webcam-1] CHECK_OUT: Muhammad Bilal (101) via Main Camera, sim=0.59
+2026-10-08 18:45:30,221 | INFO    | attendance | [webcam-1] Zone Event CHECK_OUT: Muhammad Bilal on camera webcam-1
+2026-10-08 18:47:21,256 | INFO    | attendance | [webcam-1] Zone Event CHECK_OUT: Muhammad Bilal on camera webcam-1
+2026-10-08 18:47:32,224 | INFO    | attendance | [webcam-1] Zone Event CHECK_OUT: Muhammad Bilal on camera webcam-1
+2026-10-08 18:47:57,175 | INFO    | system | [camera-manager] Started 1 CCTV worker(s) (2 threads), 1 webcam socket source(s)
+2026-10-08 18:47:57,188 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-08 18:47:57,203 | WARNING | werkzeug |  * Debugger is active!
+2026-10-08 18:47:57,252 | INFO    | camera | [cctv1] cctv1 online
+2026-10-08 18:48:28,235 | INFO    | system | [camera-manager] Started 1 CCTV worker(s) (2 threads), 1 webcam socket source(s)
+2026-10-08 18:48:28,251 | INFO    | system | [app] Server ready — 1 camera(s) in array
+2026-10-08 18:48:28,259 | WARNING | werkzeug | Werkzeug appears to be used in a production deployment. Consider switching to a production web server instead.
+2026-10-08 18:48:28,371 | INFO    | camera | [cctv1] cctv1 online
+2026-10-08 18:51:05,719 | INFO    | attendance | [cctv1] Zone Event CHECK_OUT: Muhammad Bilal on camera cctv1
+2026-10-08 18:51:32,117 | ERROR   | camera | [cctv1] cctv1 offline: stream lost / frame nahi mila
+2026-10-08 18:54:04,204 | INFO    | attendance | [webcam-1] Zone Event CHECK_OUT: Muhammad Bilal on camera webcam-1
+2026-10-08 18:54:35,347 | INFO    | attendance | [webcam-1] Zone Event CHECK_OUT: Muhammad Bilal on camera webcam-1
