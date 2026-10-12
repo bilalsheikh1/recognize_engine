@@ -85,7 +85,7 @@ class Config:
     #         }
     #     ]
     # }
-    PROCESS_INTERVAL = 0.25  # CCTV frame processing gap (seconds) ~ 4 fps
+    PROCESS_INTERVAL = 0.15  # CCTV frame processing gap (seconds) ~ 6-7 fps (chalte huwe banday ke zyada frames catch karne ke liye)
 
     # ---------------- InsightFace ----------------
     MODEL_NAME = "buffalo_l"  # ArcFace w600k_r50 -> 512-dim embedding
@@ -93,12 +93,13 @@ class Config:
     CTX_ID = 0 if _USE_GPU else -1
     DET_SIZE = (640, 640)
     EMBEDDING_DIM = 512
-    MIN_DET_SCORE = 0.60
-    MIN_FACE_PX = 60
+    MIN_DET_SCORE = 0.50   # thora relax: motion-blur wale walking faces bhi detect ho jayein
+    MIN_FACE_PX = 45       # door se walking banda bhi pass ho (pehle 60 tha, chota face reject ho raha tha)
 
     # ---------------- Matching (cosine similarity) ----------------
     MATCH_THRESHOLD = 0.50        # isse upar = employee pehchana gaya
     UNCERTAIN_MARGIN = 0.10       # (0.40 - 0.50) = "checking", na unknown record hota hai na attendance
+    FAST_MATCH_THRESHOLD = 0.62   # isse upar sim ho to EK hi frame pe turant mark (CONFIRM_FRAMES ka wait nahi)
     DUPLICATE_THRESHOLD = 0.50    # registration par: isse upar = face pehle se registered
     UNKNOWN_MATCH_THRESHOLD = 0.50
     UNKNOWN_MIN_DET_SCORE = 0.85  # sirf achi quality wale unknown faces record hotay hain
@@ -107,7 +108,7 @@ class Config:
 
     # ---------------- Attendance ----------------
     CONFIRM_FRAMES = 2            # attendance se pehle itne qareebi frames mein same banda match hona chahiye
-    STREAK_WINDOW = 3.0           # seconds
+    STREAK_WINDOW = 4.0           # seconds (pehle 3.0 — walking banday ko 2 confirm frames milne ka thora zyada time)
     MARK_CACHE_SECONDS = 60       # DB par bar bar hit na ho
     CHECKOUT_GAP_MIN = 30         # check-in ke itne minute baad dobara dikha to check_out update hoga
 

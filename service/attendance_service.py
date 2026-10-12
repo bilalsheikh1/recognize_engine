@@ -260,7 +260,10 @@ class AttendanceService:
         cnt = cnt + 1 if now - last <= Config.STREAK_WINDOW else 1
         self._streaks[key] = (cnt, now)
 
-        if cnt < Config.CONFIRM_FRAMES:
+        # Walking/moving banda: kabhi kabhi sirf 1 hi achi frame milti hai (FOV se nikalne se pehle).
+        # Agar sim bohot high (confident) hai to CONFIRM_FRAMES ka wait kiye bagair turant mark karo.
+        high_confidence = sim >= Config.FAST_MATCH_THRESHOLD
+        if cnt < Config.CONFIRM_FRAMES and not high_confidence:
             return "verifying"
         if (
             now - self._last_marked.get(emp_id, 0)

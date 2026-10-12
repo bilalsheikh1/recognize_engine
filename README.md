@@ -51,6 +51,25 @@ Accuracy camera quality par depend karti hai — koi library 95-99.9% ki guarant
 - `MATCH_THRESHOLD` badhayein (0.55-0.60) = false accept kam, magar kabhi kabhi real banda miss ho sakta hai.
 - Apne camera ka test karein: registered logon ki `sim` values dekhein (live page par dikhti hain) aur threshold un ke hisab se set karein.
 
+### Walking / moving banda recognize nahi ho raha
+
+Normal issue hai: motion-blur se face detection/embedding quality gir jati hai aur banda FOV se nikalne se pehle
+`CONFIRM_FRAMES` poora nahi ho pata. Ye tuning ab `config/config.py` mein already ki hui hai, apne camera ke
+hisab se adjust karein:
+
+- `PROCESS_INTERVAL` (0.15s ~ 6-7 fps) — kam karein to CCTV zyada frames process karegi, walking banda ke pass
+  hone ke waqt match milne ke zyada chances banenge (CPU load zyada ho to 0.20-0.25 tak wapas barha sakte hain).
+- `FAST_MATCH_THRESHOLD` (0.62) — kisi single frame mein sim isse upar ho (bohot confident match) to
+  `CONFIRM_FRAMES` ka wait kiye bagair turant attendance mark ho jati hai. Yehi sabse zyada madad karta hai jab
+  banda tez chal raha ho aur sirf 1 hi achi frame milti ho.
+- `MIN_DET_SCORE` / `MIN_FACE_PX` (0.50 / 45px) — relax kiye gaye taake thora blur ya dur wala face bhi matching
+  tak pahunche (unknown-face recording ke liye `UNKNOWN_MIN_DET_SCORE` / `UNKNOWN_MIN_FACE_PX` sakht hi rahe
+  hain, taake junk unknown records na banein).
+- `STREAK_WINDOW` (4.0s) — 2 confirm-frames ab 4 second ki window mein bhi match ho sakte hain (pehle 3s).
+- Phir bhi miss ho raha ho to: camera ka shutter speed/FPS check karein (slow shutter = zyada motion blur), aur
+  registration ke waqt employee ke 1-2 samples us distance se bhi le lein jahan se woh aksar walk karte hain —
+  sirf close-up samples se walking-distance par similarity kam milti hai.
+
 ## Production notes
 
 - `ADMIN_KEY` zaroor badlein; logs/live pages par login bhi lagayein.
