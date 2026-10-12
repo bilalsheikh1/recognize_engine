@@ -1,10 +1,14 @@
 import threading
+import traceback
 from logging_utils import log_db
 from extensions import socketio
 from config.config import Config
+from controllers.zones.zone_controller import zone_controller
 import cv2
 import base64
 import time
+
+ZONES_REFRESH_SEC = 5  # DB se zones itne second baad dobara lo (edit jaldi apply ho)
 
 
 class CCTVWorker:
@@ -24,6 +28,8 @@ class CCTVWorker:
         ]
         self.colors = {"known": (60, 200, 60), "unknown": (50, 50, 230), "uncertain": (0, 165, 255)}
         self.font = cv2.FONT_HERSHEY_SIMPLEX
+        self._zones = {"door_zone": [], "exit_zone": []}  # DB zones ka cache
+        self._zones_loaded_at = 0.0
 
     def start(self):
         for t in self._threads:
@@ -31,6 +37,27 @@ class CCTVWorker:
 
     def stop(self):
         self._stop.set()
+
+    # ---------------------------------------------------------------- zones
+    def _get_db_zones(self):
+        """Is camera ke door/exit zones DB se (cache ke saath).
+
+        Worker thread mein Flask app context nahi hota, isliye service.app ka context use hota hai.
+        """
+        now = time.monotonic()
+        if now - self._zones_loaded_at >= ZONES_REFRESH_SEC:
+            self._zones_loaded_at = now  # fail ho to bhi har frame retry na ho
+            try:
+                with self.service.app.app_context():
+                    cam_zones = zone_controller.fetch_zones_from_db_or_file(self.cam["id"]) or {}
+                # normalize_polygon: bowtie order wale points theek karta hai (pointPolygonTest ke liye)
+                self._zones = {
+                    "door_zone": zone_controller.normalize_polygon(cam_zones.get("door_zone") or cam_zones.get("checkin")),
+                    "exit_zone": zone_controller.normalize_polygon(cam_zones.get("exit_zone") or cam_zones.get("checkout")),
+                }
+            except Exception as exc:
+                log_db("ERROR", "system", self.cam["id"], f"Zones load error: {exc}", throttle=30)
+        return self._zones
 
     # ---------------------------------------------------------------- status
     def _set_online(self, online, reason=""):
@@ -101,12 +128,24 @@ class CCTVWorker:
             if frame is None:
                 continue
             try:
-                results = self.service.process(frame, cid, self.cam["name"])
+                results = self.service.process(
+                    frame, cid, self.cam["name"],
+                    db_zones=self._get_db_zones(), camera_id=cid,
+                )
+                # Original frame ki size: browser zones ko isi ke hisaab se scale karta hai
+                # (neeche image max_w tak resize ho kar jati hai)
+                frame_h, frame_w = frame.shape[:2]
                 image = self.to_b64_jpeg(self.annotate(frame, results))
                 if image:
                     socketio.emit(
                         "cctv_frame",
-                        {"camera_id": cid, "image": image, "faces": len(results)},
+                        {
+                            "camera_id": cid,
+                            "image": image,
+                            "faces": len(results),
+                            "frame_w": frame_w,
+                            "frame_h": frame_h,
+                        },
                         namespace="/cctv",
                     )
             except Exception as exc:

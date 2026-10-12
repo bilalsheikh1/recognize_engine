@@ -66,8 +66,25 @@ class Config:
         #     "type": "cctv",
         #     "source": os.getenv("CCTV_2", "rtsp://admin:password@192.168.1.65:554/Streaming/Channels/101"),
         # },
-        {"id": "webcam-1", "name": "Reception Webcam", "type": "webcam", "source": None},
+        {"id": "webcam-1", "name": "Main Camera", "type": "webcam", "source": None},
     ]
+
+    # CAMERAS = {
+    #     "webcam-1": [
+    #         {
+    #             "id": "zone_in",
+    #             "name": "Entrance Zone",
+    #             "type": "checkin",
+    #             "polygon": [[100, 100], [400, 100], [400, 400], [100, 400]]
+    #         },
+    #         {
+    #             "id": "zone_out",
+    #             "name": "Exit Zone",
+    #             "type": "checkout",
+    #             "polygon": [[450, 100], [700, 100], [700, 400], [450, 400]]
+    #         }
+    #     ]
+    # }
     PROCESS_INTERVAL = 0.25  # CCTV frame processing gap (seconds) ~ 4 fps
 
     # ---------------- InsightFace ----------------
@@ -84,7 +101,7 @@ class Config:
     UNCERTAIN_MARGIN = 0.10       # (0.40 - 0.50) = "checking", na unknown record hota hai na attendance
     DUPLICATE_THRESHOLD = 0.50    # registration par: isse upar = face pehle se registered
     UNKNOWN_MATCH_THRESHOLD = 0.50
-    UNKNOWN_MIN_DET_SCORE = 0.75  # sirf achi quality wale unknown faces record hotay hain
+    UNKNOWN_MIN_DET_SCORE = 0.85  # sirf achi quality wale unknown faces record hotay hain
     UNKNOWN_MIN_FACE_PX = 80
     UNKNOWN_VISIT_GAP = 60        # itni der ghayab rehne ke baad wapas aaye to nayi visit count hogi (seconds)
 
